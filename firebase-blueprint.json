@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneNumber": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "bloodDonor": {
+      "title": "Blood Donor",
+      "description": "Information about a blood donor",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "lastDonationDate": { "type": "string" }
+      },
+      "required": ["name", "bloodGroup", "address", "phone"]
+    },
+    "notice": {
+      "title": "Notice",
+      "description": "Public notice information",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "date": { "type": "string" },
+        "urgent": { "type": "boolean" },
+        "content": { "type": "string" },
+        "upazila": { "type": "string" }
+      },
+      "required": ["title", "category", "date", "upazila"]
+    },
+    "complaint": {
+      "title": "Complaint",
+      "description": "Citizen complaint or grievance",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "category": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "trackingId": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["name", "email", "message", "trackingId", "status"]
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "description": "Registered volunteer information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "area": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "phone": { "type": "string" },
+        "skills": { "type": "string" }
+      },
+      "required": ["name", "area", "phone"]
+    },
+    "role": {
+      "title": "Role",
+      "description": "User roles and permissions",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "canEditNotices": { "type": "boolean" },
+        "canMonitorComplaints": { "type": "boolean" }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profile collection"
+    },
+    "/roles/{email}": {
+      "schema": "role",
+      "description": "User assigned roles"
+    },
+    "/bloodDonors/{donorId}": {
+      "schema": "bloodDonor",
+      "description": "Blood donor collection"
+    },
+    "/notices/{noticeId}": {
+      "schema": "notice",
+      "description": "Public notices"
+    },
+    "/complaints/{complaintId}": {
+      "schema": "complaint",
+      "description": "Citizen complaints"
+    },
+    "/volunteers/{volunteerId}": {
+      "schema": "volunteer",
+      "description": "Registered volunteers"
+    }
+  }
+}

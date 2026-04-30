@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-bengali: "Hind Siliguri", sans-serif;
+  
+  --color-primary: #006747;
+  --color-background: #FAF9F6;
+  --color-card: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-heading: #111827;
+  --color-body: #4B5563;
+  --color-icon-bg: rgba(0, 103, 71, 0.05);
+}
+
+@layer base {
+  body {
+    @apply font-bengali text-body bg-background leading-[1.6];
+    font-weight: 500;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bengali font-bold leading-tight text-heading;
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-primary text-white px-8 py-4 rounded-full font-bold transition-all hover:brightness-110 active:scale-95;
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-md bg-white/70 border border-white/20 shadow-xl;
+  }
+  
+  .nav-link {
+    @apply text-sm font-bold tracking-wide transition-all hover:text-primary py-2;
+  }
+
+  .shadow-green-soft {
+    box-shadow: 0 10px 40px rgba(0, 103, 71, 0.08);
+  }
+  .shadow-green-strong {
+    box-shadow: 0 20px 50px rgba(0, 103, 71, 0.12);
+  }
+  .shadow-green-hover {
+    box-shadow: 0 20px 60px rgba(0, 103, 71, 0.15);
+  }
+}

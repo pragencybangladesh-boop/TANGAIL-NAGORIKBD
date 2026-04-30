@@ -1,0 +1,91 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function isAdmin() { 
+      return isSignedIn() && (request.auth.token.email == 'md.nafiul.ahmad.rafi@gmail.com' || request.auth.token.email == 'rafi011022@gmail.com');
+    }
+    
+    function getRoles() {
+      let roleDoc = get(/databases/$(database)/documents/roles/$(request.auth.token.email));
+      return roleDoc != null ? roleDoc.data : {};
+    }
+
+    function isNoticeEditor() {
+      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.token.email)) && getRoles().canEditNotices == true);
+    }
+
+    function isComplaintMonitor() {
+      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.token.email)) && getRoles().canMonitorComplaints == true);
+    }
+
+    function isValidDonor(data) { 
+        return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+               data.bloodGroup is string && data.bloodGroup.matches('^(A|B|AB|O)[+-]$') &&
+               data.address is string && data.address.size() > 0 && data.address.size() <= 200 &&
+               data.phone is string && data.phone.matches('^[0-9]{11}$') &&
+               (data.lastDonationDate == null || data.lastDonationDate is string);
+    }
+
+    function isValidNotice(data) {
+        return data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+               data.category is string && data.category.size() > 0 &&
+               data.date is string &&
+               data.upazila is string && data.upazila.size() > 0 &&
+               (data.urgent == null || data.urgent is bool);
+    }
+
+    function isValidComplaint(data) {
+        return data.name is string && data.name.size() > 0 &&
+               data.email is string && data.email.size() > 0 &&
+               data.message is string && data.message.size() > 0;
+    }
+
+    function isValidVolunteer(data) {
+        return data.name is string && data.name.size() > 0 &&
+               data.area is string && data.area.size() > 0 &&
+               data.phone is string && data.phone.matches('^[0-9]{11}$');
+    }
+
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /bloodDonors/{donorId} {
+      allow list: if true;
+      allow create: if isSignedIn() && isValidDonor(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow create, update: if isNoticeEditor() && isValidNotice(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /complaints/{complaintId} {
+      allow list: if isComplaintMonitor();
+      allow get: if true; // Anyone with tracking ID (complaintId) can fetch it
+      allow create: if isValidComplaint(request.resource.data);
+      allow update: if isComplaintMonitor();
+      allow delete: if isAdmin();
+    }
+
+    match /volunteers/{volunteerId} {
+      allow list: if true;
+      allow create: if isValidVolunteer(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /roles/{email} {
+      allow read: if isSignedIn() && (isAdmin() || request.auth.token.email == email);
+      allow write: if isAdmin();
+    }
+  }
+}
