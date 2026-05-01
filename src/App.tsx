@@ -14,6 +14,7 @@ import BloodBank from './pages/BloodBank';
 import VolunteerRegistration from './pages/VolunteerRegistration';
 import AdminDashboard from './pages/AdminDashboard';
 import Governance from './pages/Governance';
+import Weather from './pages/Weather';
 import Layout from './components/Layout';
 import { AuthProvider } from './lib/AuthContext';
 
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="/blood-bank" element={<BloodBank />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/weather" element={<Weather />} />
           </Routes>
         </Layout>
       </Router>

@@ -87,6 +87,28 @@ export default function Volunteers() {
         </div>
       </section>
 
+      {/* Skills Development Card */}
+      <section className="max-w-7xl mx-auto px-6 mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white border border-slate-200 p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm"
+        >
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Volunteer Skill Development Program</h2>
+            <p className="text-sm text-slate-600 font-medium">Equipping our volunteers with future-ready skills to serve the community better.</p>
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            {[ 'AI Learning', 'Information OSINT Learning', 'Design & Communication Learning' ].map(skill => (
+              <div key={skill} className="px-5 py-2.5 border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-primary hover:text-white transition-all cursor-pointer">
+                {skill}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
       {/* College Units Section */}
       <section className="max-w-7xl mx-auto px-6 mb-32">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-16 mb-24">
@@ -105,30 +127,30 @@ export default function Volunteers() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {INSTITUTIONS.map((inst, i) => (
             <motion.div 
               key={inst.name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white p-10 rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col md:flex-row justify-between items-center gap-10 group"
+              className="bg-white p-2 border border-slate-200 hover:shadow-sm transition-all duration-300 flex flex-col md:flex-row justify-between items-center gap-2 group"
             >
-              <div className="flex items-center gap-10">
-                <div className="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary transition-all duration-500">
-                  <GraduationCap className="w-10 h-10 text-primary group-hover:text-white" />
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-slate-50 flex items-center justify-center shrink-0 group-hover:bg-primary transition-all duration-300">
+                  <GraduationCap className="w-4 h-4 text-primary group-hover:text-white" />
                 </div>
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-slate-900 leading-tight group-hover:text-primary transition-colors">{inst.name}</h3>
-                  <div className="flex items-center gap-2 text-indigo-600">
-                    <Zap className="w-4 h-4" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{inst.mission}টি সফল মিশন সম্পন্ন</span>
+                <div className="space-y-0.5">
+                  <h3 className="text-sm font-bold text-slate-900 leading-tight group-hover:text-primary transition-colors">{inst.name}</h3>
+                  <div className="flex items-center gap-1 text-indigo-600">
+                    <Zap className="w-3 h-3" />
+                    <span className="text-[8px] font-bold uppercase tracking-[0.1em]">{inst.mission}টি সফল মিশন</span>
                   </div>
                 </div>
               </div>
-              <div className="text-center md:text-right shrink-0 bg-slate-50/50 px-8 py-6 rounded-3xl group-hover:bg-accent/5 transition-colors">
-                 <p className="text-5xl font-bold text-primary group-hover:text-accent transition-all leading-none tracking-tighter">{inst.volunteers}</p>
-                 <p className="text-[10px] font-bold uppercase text-slate-400 tracking-[0.3em] mt-3">সক্রিয় সদস্য</p>
+              <div className="text-center md:text-right shrink-0 bg-slate-50 px-2 py-1 group-hover:bg-accent/5 transition-colors">
+                 <p className="text-sm font-bold text-primary group-hover:text-accent transition-all leading-none tracking-tighter">{inst.volunteers}</p>
+                 <p className="text-[7px] font-bold uppercase text-slate-400 tracking-[0.2em] mt-1">সক্রিয় সদস্য</p>
               </div>
             </motion.div>
           ))}

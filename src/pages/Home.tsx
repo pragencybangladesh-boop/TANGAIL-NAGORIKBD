@@ -1,5 +1,6 @@
 import { UPAZILAS } from '../data/upazilas';
 import UpazilaCard from '../components/UpazilaCard';
+import WeatherCard from '../components/WeatherCard';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, Users, Mic, ArrowRight, Activity, FileText, Heart, GraduationCap, Zap, Sprout, Scale, Gavel, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -38,26 +39,26 @@ export default function Home() {
             className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20"
           >
             <span className="text-white text-sm font-medium flex items-center gap-2">
-              <span className="text-yellow-400">✨</span> সরকারি সেবা সহজীকরণ ও নাগরিক অংশগ্রহণ
+              <span className="text-yellow-400">✨</span> সরকারের সমালোচনা নয়, সরকারের সহযোগিতার মাধ্যমে উন্নত দেশ গড়ার প্রত্যায়ে NagorikBD 🇧🇩
             </span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
-            নাগরিক বিডি
-          </h1>
-          <h2 className="text-3xl md:text-4xl font-semibold text-white/90 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
             টাঙ্গাইল জেলা নাগরিক পোর্টাল
+          </h1>
+          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
+            নাগরিক বাংলাদেশ
           </h2>
 
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
             টাঙ্গাইল জেলার ডিজিটাল প্ল্যাটফর্ম — স্বচ্ছ, দ্রুত ও আধুনিক সেবায় নাগরিকের পাশে। ৭টি উপজেলার ৪৫+ অনলাইন সেবা এক জায়গায়।
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <Link to="/services" className="px-8 py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-500 transition-all flex items-center gap-2">
-              সেবাসমূহ দেখুন <ArrowRight className="w-5 h-5" />
+          <div className="flex flex-row items-center justify-center gap-4 pt-6">
+            <Link to="/services" className="px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-500 transition-all flex items-center gap-2 text-sm whitespace-nowrap">
+              সেবাসমূহ দেখুন <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/upazilas" className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-all border border-white/20">
+            <Link to="/upazilas" className="px-8 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-all border border-white/20 text-sm whitespace-nowrap">
               উপজেলা সমূহ
             </Link>
           </div>
@@ -71,12 +72,17 @@ export default function Home() {
                 {label: 'ডিজিটাল সেবা', value: '২৪/৭'},
                 {label: 'নাগরিক সহায়তক', value: 'AI'},
             ].map((stat, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/10 p-6 rounded-2xl text-center text-white">
-                    <div className="text-3xl font-bold mb-1">{stat.value}</div>
+                <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-center text-white">
+                    <div className="text-2xl font-bold mb-1">{stat.value}</div>
                     <div className="text-sm font-medium text-white/70">{stat.label}</div>
                 </div>
             ))}
         </div>
+      </section>
+
+      {/* Weather Section */}
+      <section className="max-w-7xl mx-auto px-6 -mt-8 relative z-20">
+        <WeatherCard />
       </section>
 
       {/* Services Grid */}
@@ -97,20 +103,20 @@ export default function Home() {
                 <div className={`w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white mb-4`}>
                   <action.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-heading mb-2">{action.label}</h3>
-                <p className="text-body text-xs mb-4">সরকারি সেবায় দ্রুত আবেদন ও নিষ্পত্তি।</p>
-                <div className="inline-block bg-background text-body text-[10px] font-bold px-3 py-1 rounded-full">২৪/৭ সেবা</div>
+                <h3 className="text-xl font-bold text-heading mb-2">{action.label}</h3>
+                <p className="text-body text-sm mb-4">সরকারি সেবায় দ্রুত আবেদন ও নিষ্পত্তি।</p>
+                <div className="inline-block bg-background text-body text-xs font-bold px-3 py-1 rounded-full">২৪/৭ সেবা</div>
                 
                 {/* Background Circle */}
-                <div className="absolute -top-10 -right-10 w-24 h-24 bg-icon-bg rounded-full" />
+                <div className="absolute -top-6 -right-6 w-16 h-16 bg-icon-bg rounded-full opacity-50" />
               </motion.div>
             </Link>
           ))}
         </div>
         
-        <div className="mt-16 flex justify-center">
-            <Link to="/services" className="px-8 py-4 bg-emerald-800 text-white font-bold rounded-xl hover:bg-emerald-900 transition-all flex items-center gap-3">
-                সকল সেবা দেখুন <ArrowRight className="w-5 h-5" />
+        <div className="mt-10 flex justify-center">
+            <Link to="/services" className="px-8 py-3 bg-emerald-800 text-white font-bold rounded-lg hover:bg-emerald-900 transition-all flex items-center gap-2 text-sm">
+                সকল সেবা দেখুন <ArrowRight className="w-4 h-4" />
             </Link>
         </div>
       </section>
@@ -128,22 +134,22 @@ export default function Home() {
         </div>
         
         <div className="grid gap-6">
-           <div className="bg-card p-6 rounded-3xl border border-[#E5E7EB] shadow-green-soft hover:shadow-green-hover transition-all">
-                <div className="flex justify-between items-start mb-4">
+           <div className="bg-card p-6 rounded-2xl border border-[#E5E7EB] shadow-green-soft hover:shadow-green-hover transition-all">
+                <div className="flex justify-between items-start mb-2">
                     <span className="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">নির্বাচন</span>
                     <span className="text-sm text-slate-500 flex items-center gap-1">📅 ২০ এপ্রিল, ২০২৬</span>
                 </div>
-                <h3 className="text-xl font-bold text-heading mb-3">প্রবাসী ভোটার সিস্টেম চালু</h3>
+                <h3 className="text-lg font-bold text-heading mb-2">প্রবাসী ভোটার সিস্টেম চালু</h3>
                 <p className="text-body text-sm mb-4">ত্রয়োদশ জাতীয় সংসদ নির্বাচনকে সামনে রেখে প্রবাসীদের জন্য ডাকযোগে ভোটদানের (Postal Voting) সুবিধা চালু করেছে নির্বাচন কমিশন।</p>
                 <Link to="/notices" className="text-primary font-bold flex items-center gap-1 text-sm">বিস্তারিত পড়ুন ↗</Link>
            </div>
            
-           <div className="bg-card p-6 rounded-3xl border border-[#E5E7EB] shadow-green-soft hover:shadow-green-hover transition-all">
-                <div className="flex justify-between items-start mb-4">
+           <div className="bg-card p-6 rounded-2xl border border-[#E5E7EB] shadow-green-soft hover:shadow-green-hover transition-all">
+                <div className="flex justify-between items-start mb-2">
                     <span className="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">নোটিশ</span>
                     <span className="text-sm text-slate-500 flex items-center gap-1">📅 ২০ এপ্রিল, ২০২৬</span>
                 </div>
-                <h3 className="text-xl font-bold text-heading mb-3">ভোটার তালিকায় ঠিকানা পরিবর্তন স্থগিত</h3>
+                <h3 className="text-lg font-bold text-heading mb-2">ভোটার তালিকায় ঠিকানা পরিবর্তন স্থগিত</h3>
                 <p className="text-body text-sm mb-4">চূড়ান্ত ভোটার তালিকা প্রস্তুতের লক্ষে এপ্রিল ২০২৬ থেকে ঠিকানা পরিবর্তনের কার্যক্রম সম্পূর্ণভাবে স্থগিত আছে।</p>
                 <Link to="/notices" className="text-primary font-bold flex items-center gap-1 text-sm">বিস্তারিত পড়ুন ↗</Link>
            </div>
@@ -153,15 +159,16 @@ export default function Home() {
       {/* Upazilas Section */}
       <section className="bg-card py-32 mb-32 border-y border-border">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-20 gap-8">
-            <div className="space-y-4">
-              <span className="text-accent text-[11px] font-bold uppercase tracking-[0.4em]">Districts & Units</span>
-              <h2 className="text-4xl md:text-5xl font-bold text-primary">উপজেলা কেন্দ্রসমূহ</h2>
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+            <div className="space-y-1">
+              <span className="text-accent text-[10px] font-bold uppercase tracking-[0.2em]">Districts & Units</span>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary">উপজেলা কেন্দ্রসমূহ</h2>
             </div>
-            <Link to="/upazilas" className="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all">
-              সেবাদেখুন : উপজেলা সমূহ <ArrowRight className="w-5 h-5" />
+            <Link to="/upazilas" className="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all text-sm">
+              সেবাদেখুন : উপজেলা সমূহ <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {UPAZILAS.slice(0, 4).map((upazila, i) => (
@@ -174,8 +181,8 @@ export default function Home() {
       {/* Volunteer CTA */}
       <section className="max-w-7xl mx-auto px-6 mb-32 flex justify-center">
         <Link 
-          to="/volunteer" 
-          className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all flex items-center gap-3 text-lg shadow-green-strong hover:scale-105"
+          to="/volunteer-registration" 
+          className="px-8 py-4 bg-green-700 text-white font-bold rounded-xl hover:bg-green-600 transition-all flex items-center gap-3 text-lg shadow-lg border border-green-600 whitespace-nowrap hover:scale-105"
         >
           ভলান্টিয়ার জয়েন করতে ক্লিক করুন <ArrowRight className="w-5 h-5" />
         </Link>
@@ -183,9 +190,9 @@ export default function Home() {
 
       {/* Complaint Form Section */}
       <section className="max-w-4xl mx-auto px-6 mb-32">
-        <div className="bg-card p-8 md:p-12 rounded-[2rem] border border-border shadow-green-strong">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+        <div className="bg-card p-8 rounded-2xl border border-border shadow-green-strong">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               <MessageSquare size={24} />
             </div>
             <div>
@@ -198,22 +205,22 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-heading">নাম</label>
-                <input type="text" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none" placeholder="আপনার নাম লিখুন" />
+                <input type="text" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none text-sm" placeholder="আপনার নাম লিখুন" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-bold text-heading">ইমেইল</label>
-                <input type="email" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none" placeholder="আপনার ইমেইল" />
+                <input type="email" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none text-sm" placeholder="আপনার ইমেইল" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-bold text-heading">বিষয়</label>
-              <input type="text" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none" placeholder="অভিযোগের বিষয়" />
+              <input type="text" className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none text-sm" placeholder="অভিযোগের বিষয়" />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-bold text-heading">আপনার অভিযোগ</label>
-              <textarea className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none h-32" placeholder="বিস্তারিত লিখুন"></textarea>
+              <textarea className="w-full p-4 rounded-xl border border-border focus:ring-2 focus:ring-primary/20 outline-none h-32 text-sm" placeholder="বিস্তারিত লিখুন"></textarea>
             </div>
-            <button onClick={(e) => { e.preventDefault(); navigate('/grievance'); }} className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all">অভিযোগ জমা দিন</button>
+            <button onClick={(e) => { e.preventDefault(); navigate('/grievance'); }} className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all text-base">অভিযোগ জমা দিন</button>
           </form>
         </div>
       </section>
@@ -226,10 +233,10 @@ export default function Home() {
           className="bg-primary p-8 md:p-12 rounded-[2rem] text-center relative overflow-hidden"
         >
           <div className="relative z-10 space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">সুশাসন ও নাগরিক অধিকার</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">সুশাসন ও নাগরিক অধিকার</h2>
             <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto font-medium">নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগ সম্পর্কে জানুন।</p>
             <div className="flex justify-center">
-              <Link to="/governance" className="btn-gold !px-8 !py-4 text-sm uppercase tracking-widest hover:scale-105 transition-all">
+              <Link to="/governance" className="btn-gold !px-8 !py-4 text-sm uppercase tracking-widest hover:scale-105 transition-all border-2 border-yellow-400 rounded-lg">
                 বিস্তারিত জানুন
               </Link>
             </div>

@@ -21,18 +21,18 @@ export default function UpazilaCard({ upazila, index }: UpazilaCardProps) {
     >
       <Link 
         to={`/upazila/${upazila.id}`}
-        className="group block bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-500"
+        className="group block bg-card rounded-none p-4 border border-border shadow-sm hover:shadow-lg transition-all duration-500"
       >
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-2 text-primary">
             <MapPin className="w-5 h-5" />
             <span className="text-sm font-bold text-heading">উপজেলা</span>
           </div>
-          <span className="text-4xl font-bold text-slate-200 leading-none">{(index + 1).toString().padStart(2, '0')}</span>
+          <span className="text-3xl font-bold text-slate-200 leading-none">{(index + 1).toString().padStart(2, '0')}</span>
         </div>
         
         <div className="space-y-1 mb-6">
-          <h3 className="text-2xl font-bold text-primary leading-none group-hover:text-primary transition-colors">{upazila.name}</h3>
+          <h3 className="text-2xl font-bold text-primary leading-tight group-hover:text-primary transition-colors">{upazila.name}</h3>
           <p className="text-sm text-body">{upazila.nameEn}</p>
           <p className="text-sm italic text-body mt-2">"{upazila.description}"</p>
         </div>

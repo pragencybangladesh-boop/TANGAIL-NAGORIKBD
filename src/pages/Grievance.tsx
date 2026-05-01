@@ -19,6 +19,7 @@ export default function Grievance() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    district: '',
     upazila: '',
     category: '',
     description: '',
@@ -38,6 +39,7 @@ export default function Grievance() {
         name: formData.name,
         email: user?.email || 'anonymous',
         phone: formData.phone,
+        district: formData.district,
         upazila: formData.upazila,
         category: formData.category,
         message: formData.description,
@@ -284,6 +286,17 @@ export default function Grievance() {
                             <p className="text-xs text-slate-400 font-medium">অভিযোগটি কিসের সাথে সম্পর্কিত এবং কোথায় ঘটেছে?</p>
                           </div>
                           <div className="space-y-4">
+                            <div className="space-y-1.5">
+                              <label className="text-[11px] font-bold uppercase text-slate-500">জেলা</label>
+                              <input 
+                                type="text" 
+                                required
+                                placeholder="জেলা লিখুন"
+                                className="w-full bg-slate-50 border border-slate-200 py-3 px-4 font-semibold text-slate-900 focus:bg-white focus:border-primary outline-none transition-all text-sm"
+                                value={formData.district}
+                                onChange={(e) => setFormData({...formData, district: e.target.value})}
+                              />
+                            </div>
                             <div className="space-y-1.5">
                               <label className="text-[11px] font-bold uppercase text-slate-500">উপজেলা</label>
                               <select 

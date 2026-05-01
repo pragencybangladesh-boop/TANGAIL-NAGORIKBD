@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { UPAZILAS } from '../data/upazilas';
 import { db } from '../lib/firebase';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import WeatherCard from '../components/WeatherCard';
 import { 
   ArrowLeft, Users, Landmark, Map, Info, 
   Phone, Globe, Mail, FileText, Camera, ArrowRight,
@@ -81,8 +82,8 @@ export default function UpazilaPortal() {
                  <span className="text-white text-[13px] md:text-sm font-medium">উপজেলা নাগরিক পোর্টাল · {upazila.name}</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight drop-shadow-sm">
-                {upazila.name}<br/>উপজেলা
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight drop-shadow-sm whitespace-nowrap">
+                {upazila.name} উপজেলা
               </h1>
               
               <p className="text-2xl md:text-3xl text-white/95 font-medium mt-6">
@@ -124,21 +125,24 @@ export default function UpazilaPortal() {
       </section>
       
       <div className="max-w-7xl mx-auto px-6 py-32">
+        <div className="mb-10">
+          <WeatherCard city={upazila.nameEn} />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-24">
           <div className="lg:col-span-2 space-y-32">
             {/* Content & History Section */}
             <div className="space-y-12 md:space-y-16">
-              <section className="bg-white p-8 md:px-12 md:py-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-50/80 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full -mr-40 -mt-40 blur-[100px] pointer-events-none" />
+              <section className="bg-white p-8 md:px-12 md:py-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-50/80 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 -mr-40 -mt-40 blur-[100px] pointer-events-none" />
                 <div className="space-y-6 relative z-10">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center text-primary shadow-sm border border-primary/10">
+                    <div className="w-10 h-10 bg-primary/5 flex items-center justify-center text-primary shadow-sm border border-primary/10">
                       <Info className="w-5 h-5" />
                     </div>
                     <h2 className="text-2xl md:text-3xl font-semibold text-[#2D3436] tracking-tight leading-none">উপজেলা পরিচিতি</h2>
                   </div>
                   <div className="md:px-2">
-                    <p className="text-[#4b5563] leading-[1.8] text-sm md:text-[15px] font-normal text-justify md:text-left">
+                    <p className="text-[#4b5563] leading-[1.8] text-base md:text-lg font-normal text-justify md:text-left">
                       {upazila.description} টাঙ্গাইলের এই জনপদ প্রাচীন ইতিহাস এবং আধুনিক অর্থনীতির এক অপূর্ব মেলবন্ধন। এখানকার মাটি ও মানুষ যেমন অতিথিপরায়ণ, তেমনই আমাদের ঐতিহ্যবাহী স্থাপত্য শিল্পসমূহ আমাদের জেলাকে করেছে আরও সমৃদ্ধ।
                     </p>
                   </div>
@@ -147,20 +151,20 @@ export default function UpazilaPortal() {
 
               <section className="space-y-6 md:space-y-8">
                 <div className="flex items-center gap-4">
-                  <div className="h-0.5 w-8 bg-accent rounded-full" />
+                  <div className="h-0.5 w-8 bg-accent" />
                   <h3 className="text-sm font-semibold text-slate-500 tracking-[0.2em] uppercase">প্রধান আকর্ষণ ও ঐতিহ্য</h3>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] overflow-hidden">
+                <div className="bg-white border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] overflow-hidden">
                   <div className="divide-y divide-slate-50">
                     {upazila.highlights.map((h, i) => (
                       <div 
                         key={i} 
                         className="flex items-center gap-4 px-6 md:px-8 py-4 md:py-5 hover:bg-slate-50/50 transition-colors group"
                       >
-                        <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center font-medium text-slate-400 text-xs shadow-sm border border-slate-100/50 group-hover:bg-accent/10 group-hover:text-primary transition-all">
+                        <div className="w-8 h-8 bg-slate-50 flex items-center justify-center font-medium text-slate-400 text-xs shadow-sm border border-slate-100/50 group-hover:bg-accent/10 group-hover:text-primary transition-all">
                           {(i + 1).toString().padStart(2, '0')}
                         </div>
-                        <span className="font-medium text-[15px] text-[#2D3436] tracking-tight">{h}</span>
+                        <span className="font-medium text-base md:text-lg text-[#2D3436] tracking-tight">{h}</span>
                       </div>
                     ))}
                   </div>
@@ -174,7 +178,7 @@ export default function UpazilaPortal() {
                 <h3 className="text-xl md:text-2xl font-semibold text-slate-800 tracking-tight">২৪টি সেবা পাওয়া গেছে</h3>
                 <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
                   {['সব', 'নাগরিক', 'ভূমি', 'স্বাস্থ্য', 'কৃষি'].map((tab, i) => (
-                    <button key={i} className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${i === 0 ? 'bg-[#1f6343] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                    <button key={i} className={`px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors ${i === 0 ? 'bg-[#1f6343] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                       {tab}
                     </button>
                   ))}
@@ -192,23 +196,23 @@ export default function UpazilaPortal() {
                   { title: 'কৃষি সেবা', desc: 'কৃষকদের জন্য বিভিন্ন প্রণোদনা ও তথ্য।', cat: 'কৃষি', icon: Map, to: '#' },
                   { title: 'টেলিমেডিসিন', desc: 'বিশেষজ্ঞ চিকিৎসকের পরামর্শ।', cat: 'স্বাস্থ্য', icon: Phone, to: '#' },
                 ].map((item, i) => (
-                  <div key={i} className="flex flex-col p-5 bg-white rounded-[1.25rem] border border-slate-100 shadow-[0_2px_15px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group">
+                  <div key={i} className="flex flex-col p-5 bg-white border border-slate-100 shadow-[0_2px_15px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-[#185e3c] text-white rounded-[0.8rem] flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="w-12 h-12 bg-[#185e3c] text-white flex items-center justify-center shrink-0 shadow-sm">
                           <item.icon className="w-6 h-6" strokeWidth={2.2} />
                         </div>
                         <h4 className="font-bold text-lg text-slate-900">{item.title}</h4>
                       </div>
-                      <span className="px-3.5 py-1.5 bg-[#fef2e0] text-[#b07e15] text-[11px] font-bold uppercase tracking-wide rounded-md">
+                      <span className="px-3.5 py-1.5 bg-[#fef2e0] text-[#b07e15] text-[11px] font-bold uppercase tracking-wide">
                         {item.cat}
                       </span>
                     </div>
-                    <p className="text-[#64748b] text-[14px] md:text-[15px] mb-5 flex-grow leading-relaxed">
+                    <p className="text-[#64748b] text-base md:text-lg mb-5 flex-grow leading-relaxed">
                       {item.desc}
                     </p>
                     <div className="pt-2">
-                      <Link to={item.to} className="text-[#185e3c] font-bold text-[14px] hover:text-[#11472c] transition-colors flex items-center gap-1.5 w-max group/link">
+                      <Link to={item.to} className="text-[#185e3c] font-bold text-sm hover:text-[#11472c] transition-colors flex items-center gap-1.5 w-max group/link">
                         আবেদন করুন <ArrowRight className="w-4 h-4 -rotate-45 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                       </Link>
                     </div>
@@ -220,7 +224,7 @@ export default function UpazilaPortal() {
             {/* Notices Section */}
             <section className="space-y-6 mt-12 md:mt-16 pb-10">
               <div className="flex flex-col gap-2 mb-6">
-                <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[11px] font-bold w-max border border-red-100">
+                <span className="px-3 py-1 bg-red-50 text-red-600 text-[11px] font-bold w-max border border-red-100">
                   নোটিশ
                 </span>
                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
@@ -234,16 +238,16 @@ export default function UpazilaPortal() {
                   { id: 2, tag: "কৃষি", date: "২০ এপ্রিল, ২০২৬", title: "কৃষি প্রণোদনা বিতরণ", desc: "ক্ষুদ্র ও প্রান্তিক কৃষকদের মাঝে বিনামূল্যে বীজ ও সার বিতরণ করা হবে।" },
                   { id: 3, tag: "স্বাস্থ্য", date: "১৮ এপ্রিল, ২০২৬", title: "টিকাদান কর্মসূচি", desc: "৫ বছরের কম বয়সী শিশুদের ভিটামিন এ ক্যাপসুল খাওয়ানো হবে উপজেলার সব কেন্দ্রে।" }
                 ]).map((notice: any, i: number) => (
-                  <div key={notice.id || i} className="p-5 md:p-6 bg-white rounded-[1.25rem] border border-slate-100 shadow-[0_2px_15px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
+                  <div key={notice.id || i} className="p-5 md:p-6 bg-white border border-slate-100 shadow-[0_2px_15px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="px-3 py-1.5 bg-[#eaf4ef] text-[#1f6343] text-[11px] font-bold rounded-full border border-[#d5eadf]">
+                      <span className="px-3 py-1.5 bg-[#eaf4ef] text-[#1f6343] text-[11px] font-bold border border-[#d5eadf]">
                         {notice.tag || notice.category || "সাধারণ"}
                       </span>
-                      <span className="text-[13px] font-medium text-slate-500">{notice.date}</span>
+                      <span className="text-sm font-medium text-slate-500">{notice.date}</span>
                     </div>
-                    <h4 className="font-bold text-[17px] text-slate-900 mb-1.5">{notice.title}</h4>
+                    <h4 className="font-bold text-lg text-slate-900 mb-1.5">{notice.title}</h4>
                     {(notice.desc || notice.description) && (
-                      <p className="text-[#64748b] text-[14px] md:text-[15px] leading-relaxed">
+                      <p className="text-[#64748b] text-base md:text-lg leading-relaxed">
                         {notice.desc || notice.description}
                       </p>
                     )}
@@ -314,26 +318,6 @@ export default function UpazilaPortal() {
               </div>
             </motion.div>
 
-            {/* Sidebar Notices */}
-            <div className="space-y-6">
-              <div className="space-y-2 mb-8">
-                 <span className="inline-block px-3 py-1 bg-red-50 text-red-600 font-bold text-[11px] rounded-full">নোটিশ</span>
-                 <h4 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-tight">{upazila.name} নোটিশ ও ঘোষণা</h4>
-              </div>
-              
-              <div className="space-y-4">
-                {notices.length === 0 ? <p className="text-slate-400 text-[15px]">কোনো নোটিশ নেই</p> : notices.map((notice) => (
-                  <div key={notice.id} className="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-[0_2px_15px_rgb(0,0,0,0.02)] hover:shadow-md transition-all group">
-                    <div className="flex items-center justify-between mb-3">
-                       <span className="px-3 py-1 bg-slate-100/80 text-slate-600 text-[11px] font-bold rounded-full">{notice.category || 'নাগরিক'}</span>
-                       <span className="text-[13px] font-medium text-slate-500">{notice.date}</span>
-                    </div>
-                    <h5 className="font-bold text-[17px] text-slate-900 group-hover:text-primary transition-colors leading-snug mb-2">{notice.title}</h5>
-                    {notice.description && <p className="text-[#64748b] text-[14px] leading-relaxed line-clamp-2">{notice.description}</p>}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
