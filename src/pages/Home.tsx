@@ -230,21 +230,21 @@ export default function Home() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="bg-primary p-8 md:p-12 rounded-[2rem] text-center relative overflow-hidden"
+          className="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-700 p-8 md:p-12 rounded-[2rem] text-center relative overflow-hidden shadow-2xl shadow-amber-900/20"
         >
           <div className="relative z-10 space-y-6">
             <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">সুশাসন ও নাগরিক অধিকার</h2>
-            <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto font-medium">নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগ সম্পর্কে জানুন।</p>
+            <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto font-medium">নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগ সম্পর্কে জানুন।</p>
             <div className="flex justify-center">
-              <Link to="/governance" className="btn-gold !px-8 !py-4 text-sm uppercase tracking-widest hover:scale-105 transition-all border-2 border-yellow-400 rounded-lg">
+              <Link to="/governance" className="px-8 py-3 bg-white text-amber-900 font-bold rounded-lg hover:bg-amber-50 hover:scale-105 transition-all shadow-lg text-sm uppercase tracking-widest">
                 বিস্তারিত জানুন
               </Link>
             </div>
           </div>
           {/* Decor */}
-          <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-            <Globe className="absolute -top-20 -left-20 w-96 h-96" />
-            <ShieldCheck className="absolute -bottom-20 -right-20 w-80 h-80" />
+          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <Globe className="absolute -top-20 -left-20 w-96 h-96 text-white" />
+            <ShieldCheck className="absolute -bottom-20 -right-20 w-80 h-80 text-white" />
           </div>
         </motion.div>
       </section>

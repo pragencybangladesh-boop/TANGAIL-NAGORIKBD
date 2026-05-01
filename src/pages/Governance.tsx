@@ -29,30 +29,37 @@ export default function Governance() {
     : posts.filter(post => post.type === activeTab);
 
   return (
-    <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-      <div className="text-center space-y-6 mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">সুশাসন ও নাগরিক অধিকার</h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-          নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগসমূহ।
-        </p>
-      </div>
+    <div className="bg-background">
+      <section className="relative min-h-[40vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 bg-gradient-to-br from-green-800 to-green-950 overflow-hidden">
+        {/* Background Overlay */}
+        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '48px 48px' }} />
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">সুশাসন ও নাগরিক অধিকার</h1>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+            নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগসমূহ।
+          </p>
+        </div>
+      </section>
+
+      <div className="pt-16 pb-20 px-6 max-w-7xl mx-auto">
 
       <div className="flex justify-center gap-4 mb-10 overflow-x-auto pb-4 scrollbar-hide">
         <button 
           onClick={() => setActiveTab('all')}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${activeTab === 'all' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-all ${activeTab === 'all' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
         >
           <BookOpen className="w-4 h-4" /> সর্বশেষ আপডেট
         </button>
         <button 
           onClick={() => setActiveTab('blog')}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${activeTab === 'blog' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-all ${activeTab === 'blog' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
         >
           <FileText className="w-4 h-4" /> ব্লগ
         </button>
         <button 
           onClick={() => setActiveTab('activity')}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${activeTab === 'activity' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-all ${activeTab === 'activity' ? 'bg-[#1f6343] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-100 hover:bg-slate-50'}`}
         >
           <Activity className="w-4 h-4" /> কার্যক্রম
         </button>
@@ -88,5 +95,6 @@ export default function Governance() {
         </div>
       )}
     </div>
-  );
+  </div>
+);
 }
