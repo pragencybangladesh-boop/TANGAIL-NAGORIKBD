@@ -82,7 +82,7 @@ export default function UpazilaPortal() {
                  <span className="text-white text-[13px] md:text-sm font-medium">উপজেলা নাগরিক পোর্টাল · {upazila.name}</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight drop-shadow-sm whitespace-nowrap">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight drop-shadow-sm">
                 {upazila.name} উপজেলা
               </h1>
               
