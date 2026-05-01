@@ -45,7 +45,7 @@ export default function Chatbot({ iconUrl }: ChatbotProps) {
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
-            className="absolute bottom-24 right-0 w-[90vw] max-w-[380px] bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden border border-slate-100"
+            className="fixed inset-0 m-auto z-[100] w-[90vw] h-[90vh] max-w-[380px] max-h-[600px] bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-slate-100"
           >
             {/* Header */}
             <div className="bg-primary p-6 text-white flex justify-between items-center">
