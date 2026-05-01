@@ -107,6 +107,12 @@ export default function Navbar() {
                   {link.name}
                 </button>
               ))}
+              <button
+                onClick={() => handleMobileNav('/auth')}
+                className="text-left text-sm font-semibold text-heading border-b border-border pb-3 block w-full"
+              >
+                নিবন্ধন করুন
+              </button>
               <div className="grid grid-cols-1 gap-4 pt-10">
                 {user ? (
                   <>
@@ -116,7 +122,6 @@ export default function Navbar() {
                 ) : (
                   <>
                     <Link to="/auth" onClick={() => setIsOpen(false)} className="bg-primary text-white text-center py-2 rounded-full font-bold">প্রবেশ করুন</Link>
-                    <Link to="/auth" onClick={() => setIsOpen(false)} className="bg-border text-heading text-center py-2 rounded-full font-bold">নিবন্ধন করুন</Link>
                   </>
                 )}
               </div>

@@ -6,11 +6,7 @@ import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, User
 import { motion } from 'motion/react';
 import { useState } from 'react';
 
-export default function Home() {
-  const [searchValue, setSearchValue] = useState('');
-  const navigate = useNavigate();
-
-  const quickActions = [
+const QUICK_ACTIONS = [
     { label: 'ভূমি সেবা', icon: Landmark, color: 'bg-emerald-50', iconColor: 'text-emerald-700', path: '/services' },
     { label: 'জন্ম নিবন্ধন', icon: FileText, color: 'bg-blue-50', iconColor: 'text-blue-700', path: '/services' },
     { label: 'স্বাস্থ্য সেবা', icon: Heart, color: 'bg-rose-50', iconColor: 'text-rose-700', path: '/services' },
@@ -23,7 +19,18 @@ export default function Home() {
     { label: 'সামাজিক নিরাপত্তা', icon: ShieldCheck, color: 'bg-teal-50', iconColor: 'text-teal-700', path: '/services' },
     { label: 'অভিযোগ বক্স', icon: Phone, color: 'bg-orange-50', iconColor: 'text-orange-700', path: '/grievance' },
     { label: 'অন্যান্য সেবা', icon: Activity, color: 'bg-purple-50', iconColor: 'text-purple-700', path: '/services' },
-  ];
+];
+
+const HERO_STATS = [
+    {label: 'উপজেলা', value: '৭'},
+    {label: 'অনলাইন সেবা', value: '৪৫+'},
+    {label: 'ডিজিটাল সেবা', value: '২৪/৭'},
+    {label: 'নাগরিক সহায়তক', value: 'AI'},
+];
+
+export default function Home() {
+  const [searchValue, setSearchValue] = useState('');
+  const navigate = useNavigate();
 
   return (
     <div className="bg-background">
@@ -66,12 +73,7 @@ export default function Home() {
 
         {/* Stats Grid */}
         <div className="relative z-10 max-w-5xl mx-auto mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-            {[
-                {label: 'উপজেলা', value: '৭'},
-                {label: 'অনলাইন সেবা', value: '৪৫+'},
-                {label: 'ডিজিটাল সেবা', value: '২৪/৭'},
-                {label: 'নাগরিক সহায়তক', value: 'AI'},
-            ].map((stat, i) => (
+            {HERO_STATS.map((stat, i) => (
                 <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-center text-white">
                     <div className="text-2xl font-bold mb-1">{stat.value}</div>
                     <div className="text-sm font-medium text-white/70">{stat.label}</div>
@@ -94,7 +96,7 @@ export default function Home() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {quickActions.map((action, i) => (
+          {QUICK_ACTIONS.map((action, i) => (
             <Link to={action.path} key={i}>
               <motion.div
                 whileHover={{ y: -4 }}

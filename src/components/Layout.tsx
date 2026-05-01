@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Chatbot from './Chatbot';
+import InstallPwaBanner from './InstallPwaBanner';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -39,6 +40,7 @@ export default function Layout({ children }: LayoutProps) {
       </main>
       <Footer />
       <Chatbot iconUrl="input_file_1.png" />
+      <InstallPwaBanner />
     </div>
   );
 }
