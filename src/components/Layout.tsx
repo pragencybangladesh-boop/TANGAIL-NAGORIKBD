@@ -23,11 +23,11 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen selection:bg-primary selection:text-white">
+    <div className="flex flex-col min-h-screen selection:bg-primary selection:text-white overflow-x-hidden w-full relative">
       <ScrollToTop />
       <Navbar />
       <NewsTicker />
-      <main className="flex-grow">
+      <main className="flex-grow w-full relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -35,13 +35,14 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="w-full relative"
           >
             {children}
           </motion.div>
         </AnimatePresence>
       </main>
       <Footer />
-      <Chatbot iconUrl="input_file_1.png" />
+      <Chatbot />
       <InstallPwaBanner />
     </div>
   );

@@ -77,10 +77,10 @@ export default function Home() {
             </span>
           </motion.div>
 
-          <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight">
             ময়মনসিংহ ডিজিটাল পোর্টাল
           </h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-semibold text-white/90 tracking-tight">
             নাগরিক বাংলাদেশ
           </h2>
 
@@ -99,7 +99,7 @@ export default function Home() {
         </div>
 
         {/* Stats Grid */}
-        <div className="relative z-10 max-w-5xl mx-auto mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        <div className="relative z-10 max-w-5xl mx-auto mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4 sm:px-0">
             {HERO_STATS.map((stat, i) => (
                 <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-center text-white">
                     <div className="text-2xl font-bold mb-1">{stat.value}</div>

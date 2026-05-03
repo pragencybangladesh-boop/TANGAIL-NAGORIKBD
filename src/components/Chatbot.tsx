@@ -11,7 +11,7 @@ interface ChatbotProps {
   iconUrl?: string; // Made optional
 }
 
-export default function Chatbot({ iconUrl }: ChatbotProps) {
+export default function Chatbot() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');

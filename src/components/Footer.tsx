@@ -1,5 +1,6 @@
 import { Facebook, Youtube, Mail, Phone, MapPin, ExternalLink, ShieldCheck, MessageSquare, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,15 +12,14 @@ export default function Footer() {
         <div className="mb-14">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
-              <img 
-                src="input_file_1.png" 
-                alt="Logo" 
-                className="w-full h-full object-contain"
-              />
+              <Logo showText={false} size={40} />
             </div>
             <div className="flex flex-col">
-              <h3 className="text-2xl font-bold text-white leading-tight">নাগরিক বিডি</h3>
-              <span className="text-[13px] text-white/70 font-medium">ময়মনসিংহ ডিজিটাল পোর্টাল</span>
+              <div className="flex font-serif text-xl leading-none">
+                <span className="text-white font-bold">Nagorik</span>
+                <span className="text-pink-400 font-bold ml-1">BD</span>
+              </div>
+              <span className="text-[11px] text-white/50 font-medium mt-1">নাগরিক সমৃদ্ধি উন্নয়ন</span>
             </div>
           </div>
           <p className="text-white/70 text-[15px] leading-relaxed max-w-2xl font-medium">

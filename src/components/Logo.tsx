@@ -46,7 +46,7 @@ export default function Logo({
             <span className="text-pink-600 font-bold ml-1">BD</span>
           </div>
           {showTagline && (
-            <span className="text-[10px] font-medium text-slate-500 mt-0.5 whitespace-nowrap">
+            <span className="text-[10px] font-medium text-slate-500 mt-0.5 leading-tight">
               নাগরিক সমৃদ্ধি উন্নয়ন
             </span>
           )}

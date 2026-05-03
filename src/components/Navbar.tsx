@@ -41,43 +41,45 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-[20px] border-b border-border/50 shadow-sm py-4 px-6 md:px-12 flex items-center justify-between">
-      <Link to="/" className="flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
-        <Logo size={36} showTagline={true} />
-      </Link>
-
-      <div className="hidden md:flex items-center gap-8 text-sm font-bold text-heading">
-        {navLinks.slice(1, 6).map((link) => (
-          <Link key={link.name} to={link.path} className="hover:text-primary transition-colors">
-            {link.name}
-          </Link>
-        ))}
-      </div>
-      <div className="hidden md:flex items-center gap-4">
-        <Link to="/nagorik-ai" className="p-2.5 bg-primary/5 text-primary rounded-xl hover:bg-primary/10 transition-all border border-primary/10 group-hover:shadow-lg" title="নাগরিক AI">
-          <Bot className="w-5 h-5"/>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-[20px] border-b border-border/50 shadow-sm py-4 px-4 sm:px-6 md:px-12">
+      <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
+          <Logo size={36} showTagline={true} />
         </Link>
-        {user ? (
-          <>
-            {isAdmin && (
-              <Link to="/admin" className="text-primary font-bold flex items-center gap-2 text-sm"><LayoutDashboard className="w-4 h-4"/> ড্যাশবোর্ড</Link>
-            )}
-            <button onClick={() => signOut(auth)} className="text-body font-bold flex items-center gap-2 text-sm"><LogOut className="w-4 h-4"/> লগআউট</button>
-          </>
-        ) : (
-          <>
-            <Link to="/auth" className="text-body font-bold text-sm">প্রবেশ</Link>
-            <Link to="/auth" className="bg-primary text-white text-[12px] uppercase tracking-widest py-2.5 px-6 rounded-full font-bold hover:shadow-lg transition-all">নিবন্ধন</Link>
-          </>
-        )}
-      </div>
 
-      <button 
-        className="p-2 rounded-xl text-body bg-border/50 hover:bg-border transition-all md:hidden"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+        <div className="hidden md:flex items-center gap-8 text-sm font-bold text-heading">
+          {navLinks.slice(1, 6).map((link) => (
+            <Link key={link.name} to={link.path} className="hover:text-primary transition-colors">
+              {link.name}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden md:flex items-center gap-4">
+          <Link to="/nagorik-ai" className="p-2.5 bg-primary/5 text-primary rounded-xl hover:bg-primary/10 transition-all border border-primary/10 group-hover:shadow-lg" title="নাগরিক AI">
+            <Bot className="w-5 h-5"/>
+          </Link>
+          {user ? (
+            <>
+              {isAdmin && (
+                <Link to="/admin" className="text-primary font-bold flex items-center gap-2 text-sm"><LayoutDashboard className="w-4 h-4"/> ড্যাশবোর্ড</Link>
+              )}
+              <button onClick={() => signOut(auth)} className="text-body font-bold flex items-center gap-2 text-sm"><LogOut className="w-4 h-4"/> লগআউট</button>
+            </>
+          ) : (
+            <>
+              <Link to="/auth" className="text-body font-bold text-sm">প্রবেশ</Link>
+              <Link to="/auth" className="bg-primary text-white text-[12px] uppercase tracking-widest py-2.5 px-6 rounded-full font-bold hover:shadow-lg transition-all">নিবন্ধন</Link>
+            </>
+          )}
+        </div>
+
+        <button 
+          className="p-2 rounded-xl text-body bg-border/50 hover:bg-border transition-all md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
 
       <AnimatePresence>
         {isOpen && (
