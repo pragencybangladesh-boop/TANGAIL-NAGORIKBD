@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "527976968536",
+    "project_id": "gen-lang-client-0931872691",
+    "storage_bucket": "gen-lang-client-0931872691.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527976968536:android:5ec192b718d88d18b3f52d",
+        "android_client_info": {
+          "package_name": "org.nagorikbd.mymensingh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPdVuXfeuQjRB1j06Se5MEo3_lvo7vQLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,14 +5,22 @@ interface LogoProps {
   showText?: boolean;
   showTagline?: boolean;
   size?: number;
+  monochrome?: boolean;
 }
 
 export default function Logo({ 
   className = "", 
   showText = true, 
   showTagline = false,
-  size = 40 
+  size = 40,
+  monochrome = false
 }: LogoProps) {
+  const primaryColor = monochrome ? 'currentColor' : '#10b981';
+  const secondaryColor = monochrome ? 'currentColor' : '#059669';
+  const head1Color = monochrome ? 'currentColor' : '#ef4444';
+  const head2Color = monochrome ? 'currentColor' : '#f59e0b';
+  const head3Color = monochrome ? 'currentColor' : '#ec4899';
+
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <svg 
@@ -24,19 +32,19 @@ export default function Logo({
         className="shrink-0"
       >
         {/* Figure 1 - Largest */}
-        <path d="M30 65 L50 35 L70 65" stroke="#10b981" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="50" cy="25" r="10" fill="#ef4444" /> {/* Red Head */}
+        <path d="M30 65 L50 35 L70 65" stroke={primaryColor} strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="50" cy="25" r="10" fill={head1Color} />
 
         {/* Figure 2 - Medium Left */}
-        <path d="M15 75 L25 55 L35 75" stroke="#059669" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="25" cy="50" r="6" fill="#f59e0b" /> {/* Orange/Yellow Head */}
+        <path d="M15 75 L25 55 L35 75" stroke={secondaryColor} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="25" cy="50" r="6" fill={head2Color} />
 
         {/* Figure 3 - Medium Right */}
-        <path d="M65 75 L75 55 L85 75" stroke="#059669" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="75" cy="50" r="6" fill="#ec4899" /> {/* Pink Head */}
+        <path d="M65 75 L75 55 L85 75" stroke={secondaryColor} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="75" cy="50" r="6" fill={head3Color} />
         
-        {/* Ground/Circle at bottom */}
-        <path d="M20 85 Q50 95 80 85" stroke="#047857" strokeWidth="4" strokeLinecap="round" fill="none" opacity="0.3" />
+        {/* Ground */}
+        <path d="M20 85 Q50 95 80 85" stroke={secondaryColor} strokeWidth="4" strokeLinecap="round" fill="none" opacity={monochrome ? '0.5' : '0.3'} />
       </svg>
       
       {showText && (
