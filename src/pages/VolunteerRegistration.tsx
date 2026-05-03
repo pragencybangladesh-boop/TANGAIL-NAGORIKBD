@@ -27,6 +27,12 @@ export default function VolunteerRegistration() {
   const [trackingError, setTrackingError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<string | null>(null);
+  const [formError, setFormError] = useState('');
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^01[3-9]\d{8}$/;
+    return phoneRegex.test(phone);
+  };
 
   const generateTrackingId = () => {
     return 'V-' + Math.random().toString(36).substring(2, 7).toUpperCase();
@@ -34,6 +40,13 @@ export default function VolunteerRegistration() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
+
+    if (!validatePhone(formData.phone)) {
+      setFormError('অনুগ্রহ করে সঠিক মোবাইল নম্বর প্রদান করুন (১১ ডিজিট, যেমন: ০১৭XXXXXXXX)');
+      return;
+    }
+
     setIsSubmitting(true);
     const trackingId = generateTrackingId();
     
@@ -46,6 +59,7 @@ export default function VolunteerRegistration() {
       });
       setSubmissionResult(trackingId);
     } catch (error) {
+      setFormError('আবেদন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
       handleFirestoreError(error, OperationType.CREATE, 'volunteers');
     } finally {
       setIsSubmitting(false);
@@ -266,6 +280,16 @@ export default function VolunteerRegistration() {
                       onChange={e => setFormData({...formData, about: e.target.value})}
                     />
                   </div>
+
+                  {formError && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-red-50 text-red-500 p-4 rounded-xl border border-red-100 text-sm font-bold text-center"
+                    >
+                      {formError}
+                    </motion.div>
+                  )}
 
                   <button 
                     disabled={isSubmitting}

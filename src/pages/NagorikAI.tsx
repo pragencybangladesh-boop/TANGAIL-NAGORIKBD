@@ -180,6 +180,12 @@ export default function NagorikAI() {
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-3">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">নাগরিক জিজ্ঞাসা ও সমাধান</h3>
+              <button 
+                onClick={fetchRecentLogs}
+                className="p-1 px-3 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-tighter"
+              >
+                Refresh <Clock className="w-2.5 h-2.5" />
+              </button>
             </div>
             <div className="flex items-center gap-2 text-primary font-bold text-[10px] uppercase tracking-widest">
               Live updates <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
