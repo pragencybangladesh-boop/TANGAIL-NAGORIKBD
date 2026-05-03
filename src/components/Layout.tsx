@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from './Navbar';
+import NewsTicker from './NewsTicker';
 import Footer from './Footer';
 import Chatbot from './Chatbot';
 import InstallPwaBanner from './InstallPwaBanner';
@@ -25,6 +26,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="flex flex-col min-h-screen selection:bg-primary selection:text-white">
       <ScrollToTop />
       <Navbar />
+      <NewsTicker />
       <main className="flex-grow">
         <AnimatePresence mode="wait">
           <motion.div

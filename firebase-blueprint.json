@@ -63,9 +63,12 @@
         "area": { "type": "string" },
         "bloodGroup": { "type": "string" },
         "phone": { "type": "string" },
-        "skills": { "type": "string" }
+        "skills": { "type": "string" },
+        "trackingId": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
       },
-      "required": ["name", "area", "phone"]
+      "required": ["name", "area", "phone", "trackingId", "status"]
     },
     "role": {
       "title": "Role",
@@ -77,6 +80,19 @@
         "canMonitorComplaints": { "type": "boolean" }
       },
       "required": ["email"]
+    },
+    "aiQuery": {
+      "title": "AI Query",
+      "description": "Logs of questions asked to the AI assistant",
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" },
+        "response": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userName": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["query", "response", "createdAt"]
     }
   },
   "firestore": {
@@ -103,6 +119,10 @@
     "/volunteers/{volunteerId}": {
       "schema": "volunteer",
       "description": "Registered volunteers"
+    },
+    "/aiQueries/{queryId}": {
+      "schema": "aiQuery",
+      "description": "Logs of AI chatbot interactions"
     }
   }
 }

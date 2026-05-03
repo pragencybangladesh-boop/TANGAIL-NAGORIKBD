@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Bell, FileText, Download, Calendar, ArrowRight } from 'lucide-react';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { UPAZILAS } from '../data/upazilas';
+import { UPAZILAS } from '../data/mymensingh';
 
 export default function Notices() {
   const [notices, setNotices] = useState<any[]>([]);
@@ -35,7 +35,7 @@ export default function Notices() {
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight tracking-tight">নোটিশ <span className="text-accent underline decoration-[6px] decoration-accent/20 underline-offset-[8px]">বোর্ড</span></h1>
             <p className="text-base text-slate-500 font-medium leading-relaxed max-w-xl">
-              টাঙ্গাইল জেলা প্রশাসনের সর্বশেষ ঘোষণা, বিজ্ঞপ্তি এবং গুরুত্বপূর্ণ তথ্যাবলী। নাগরিক সেবার সকল আপডেট এখন এক জায়গায়।
+              ময়মনসিংহ জেলা প্রশাসনের সর্বশেষ ঘোষণা, বিজ্ঞপ্তি এবং গুরুত্বপূর্ণ তথ্যাবলী। নাগরিক সেবার সকল আপডেট এখন এক জায়গায়।
             </p>
           </div>
 

@@ -7,6 +7,7 @@ export interface Upazila {
   id: string;
   name: string;
   nameEn: string;
+  district: 'Mymensingh';
   description: string;
   population: string;
   area: string;

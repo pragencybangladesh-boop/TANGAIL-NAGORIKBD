@@ -1,9 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { UPAZILAS } from '../data/upazilas';
-import { db } from '../lib/firebase';
+import { UPAZILAS } from '../../data/mymensingh';
+import { db } from '../../lib/firebase';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
-import WeatherCard from '../components/WeatherCard';
+import WeatherCard from '../../components/ui/WeatherCard';
 import { 
   ArrowLeft, Users, Landmark, Map, Info, 
   Phone, Globe, Mail, FileText, Camera, ArrowRight,
@@ -15,15 +15,48 @@ export default function UpazilaPortal() {
   const { id } = useParams();
   const upazila = UPAZILAS.find(u => u.id === id);
   const [notices, setNotices] = useState<any[]>([]);
+  const [complaintStats, setComplaintStats] = useState({
+    total: 0,
+    resolved: 0,
+    pending: 0,
+    inProgress: 0
+  });
+
+  const currentMonthName = new Intl.DateTimeFormat('bn-BD', { month: 'long' }).format(new Date());
 
   useEffect(() => {
     if (upazila) {
+      const fetchStats = async () => {
+        try {
+          const now = new Date();
+          const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+          
+          const q = query(
+            collection(db, 'complaints'),
+            where('upazilaId', '==', upazila.id),
+            where('createdAt', '>=', startOfMonth)
+          );
+          
+          const snapshot = await getDocs(q);
+          const docs = snapshot.docs.map(doc => doc.data());
+          
+          setComplaintStats({
+            total: docs.length,
+            resolved: docs.filter(d => d.status === 'Resolved' || d.status === 'Completed').length,
+            pending: docs.filter(d => d.status === 'Pending').length,
+            inProgress: docs.filter(d => d.status === 'In Progress' || d.status === 'Processing').length
+          });
+        } catch (error) {
+          console.error("Error fetching complaint stats:", error);
+        }
+      };
+
       const fetchNotices = async () => {
         try {
           const q = query(
             collection(db, 'notices'), 
-            where('upazila', 'in', [upazila.id, 'সকল উপজেলা']),
-            orderBy('date', 'desc')
+            where('upazila', 'in', [upazila.id, 'all']),
+            orderBy('createdAt', 'desc')
           );
           const snapshot = await getDocs(q);
           setNotices(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -31,6 +64,7 @@ export default function UpazilaPortal() {
           console.error("Error fetching notices:", error);
         }
       };
+      fetchStats();
       fetchNotices();
     }
   }, [upazila]);
@@ -45,7 +79,7 @@ export default function UpazilaPortal() {
           <h2 className="text-3xl font-bold text-slate-900 tracking-tight">দুঃখিত, উপজেলাটি পাওয়া যায়নি।</h2>
           <p className="text-slate-500 font-medium">আপনার অনুরোধকৃত তথ্য বর্তমানে সিস্টেমে পাওয়া যাচ্ছে না।</p>
         </div>
-        <Link to="/upazila" className="btn-gold px-10 py-5 rounded-full flex items-center gap-3">
+        <Link to="/upazilas" className="btn-gold px-10 py-5 rounded-full flex items-center gap-3">
           <ArrowLeft className="w-5 h-5" /> সকল উপজেলা দেখুন
         </Link>
       </div>
@@ -72,8 +106,8 @@ export default function UpazilaPortal() {
             transition={{ duration: 0.6 }}
             className="space-y-6 max-w-3xl"
           >
-            <Link to="/upazila" className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm font-medium mb-4">
-              <ArrowLeft className="w-4 h-4" /> টাংগাইল জেলা পোর্টালে ফিরুন
+            <Link to="/upazilas" className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm font-medium mb-4">
+              <ArrowLeft className="w-4 h-4" /> ময়মনসিংহ জেলা পোর্টালে ফিরুন
             </Link>
             
             <div className="space-y-5">
@@ -87,11 +121,11 @@ export default function UpazilaPortal() {
               </h1>
               
               <p className="text-2xl md:text-3xl text-white/95 font-medium mt-6">
-                টাংগাইল জেলার প্রাণকেন্দ্র
+                ময়মনসিংহ জেলার প্রাণকেন্দ্র
               </p>
               
               <p className="text-base md:text-lg text-white/70 font-medium mb-10">
-                {upazila.name} · টাংগাইল জেলা, ঢাকা বিভাগ
+                {upazila.name} · ময়মনসিংহ জেলা, ময়মনসিংহ বিভাগ
               </p>
             </div>
             
@@ -142,11 +176,87 @@ export default function UpazilaPortal() {
                     <h2 className="text-2xl md:text-3xl font-semibold text-[#2D3436] tracking-tight leading-none">উপজেলা পরিচিতি</h2>
                   </div>
                   <div className="md:px-2">
-                    <p className="text-[#4b5563] leading-[1.8] text-base md:text-lg font-normal text-justify md:text-left">
-                      {upazila.description} টাঙ্গাইলের এই জনপদ প্রাচীন ইতিহাস এবং আধুনিক অর্থনীতির এক অপূর্ব মেলবন্ধন। এখানকার মাটি ও মানুষ যেমন অতিথিপরায়ণ, তেমনই আমাদের ঐতিহ্যবাহী স্থাপত্য শিল্পসমূহ আমাদের জেলাকে করেছে আরও সমৃদ্ধ।
+                    <p className="text-[#4b5563] leading-[1.8] text-base md:text-lg font-normal text-justify md:text-left mb-8">
+                      {upazila.description} ময়মনসিংহের এই জনপদ প্রাচীন ইতিহাস এবং আধুনিক অর্থনীতির এক অপূর্ব মেলবন্ধন। এখানকার মাটি ও মানুষ যেমন অতিথিপরায়ণ, তেমনই আমাদের ঐতিহ্যবাহী স্থাপত্য শিল্পসমূহ আমাদের জেলাকে করেছে আরও সমৃদ্ধ।
                     </p>
+
+                    {/* Emergency Helplines - Slim Rectangular Design */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 border-t border-slate-100 pt-8">
+                      {[
+                        { number: '৯৯৯', label: 'পুলিশ/ফায়ার', color: 'bg-red-500' },
+                        { number: '৩৩৩', label: 'সরকারি তথ্য', color: 'bg-blue-600' },
+                        { number: '১০৯', label: 'নারী সহায়তা', color: 'bg-purple-600' },
+                        { number: '৩৩১', label: 'দুর্যোগ সেবা', color: 'bg-orange-500' }
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center justify-between px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl group hover:border-accent/40 hover:bg-white hover:shadow-lg hover:shadow-black/5 transition-all cursor-default">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] text-slate-400 font-bold uppercase leading-none mb-1">{item.label}</span>
+                            <span className="text-2xl font-black text-slate-900 tracking-tight leading-none">{item.number}</span>
+                          </div>
+                          <div className={`w-8 h-8 rounded-full ${item.color} flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform`}>
+                            <Phone className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
+              </section>
+
+              {/* Monthly Complaint Statistics Section - Single Pro Card */}
+              <section className="space-y-6">
+                <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] overflow-hidden">
+                  <div className="bg-slate-50/80 px-8 py-5 border-b border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Activity className="w-5 h-5 text-accent" />
+                      <h3 className="text-sm font-bold text-slate-700 tracking-wider uppercase">{currentMonthName} মাসের অভিযোগ চিত্র</h3>
+                    </div>
+                    <Link to="/grievance" className="text-[10px] font-black text-accent hover:text-primary transition-colors uppercase tracking-[0.2em]">বিস্তারিত পোর্টাল</Link>
+                  </div>
+                  
+                  <div className="p-8 md:p-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 divide-x-0 md:divide-x divide-slate-100 text-center md:text-left">
+                      {[
+                        { label: 'মোট অভিযোগ', value: complaintStats.total, color: 'text-slate-900' },
+                        { label: 'সমাধানকৃত', value: complaintStats.resolved, color: 'text-emerald-600' },
+                        { label: 'পেন্ডিং', value: complaintStats.pending, color: 'text-rose-500' },
+                        { label: 'প্রক্রিয়াধীন', value: complaintStats.inProgress, color: 'text-blue-600' }
+                      ].map((stat, i) => (
+                        <div key={i} className="flex flex-col md:px-8 first:pl-0 last:pr-0">
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{stat.label}</span>
+                          <span className={`text-4xl md:text-5xl font-black ${stat.color} tracking-tighter tabular-nums leading-none`}>
+                            {stat.value.toLocaleString('bn-BD')}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-[10px] text-slate-400 font-medium px-4 text-center md:text-left">
+                  * প্রয়োজনীয় সক্ষমতা ও কর্মকর্তাগণের দৈনন্দিন কাজের ফলে একটু দেরি হলেও আপনি আপডেট পাবেন।
+                </p>
+              </section>
+
+              {/* Volunteer CTA section */}
+              <section className="py-4">
+                <Link 
+                  to="/volunteer-registration" 
+                  className="group relative overflow-hidden bg-gradient-to-r from-green-800 to-green-900 p-8 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-green-900/20 border border-white/10 hover:scale-[1.01] transition-all duration-500"
+                >
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 -mr-32 -mt-32 rounded-full blur-3xl pointer-events-none" />
+                  <div className="relative z-10 flex flex-col items-center md:items-start gap-2">
+                    <div className="flex items-center gap-2 text-amber-400">
+                      <ShieldCheck className="w-4 h-4" />
+                      <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] italic">Good Citizens build Good Governance</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight text-center md:text-left">
+                      {upazila.name} উপজেলা হতে নাগরিক বাংলাদেশ এর অংশ হতে ক্লিক করুন
+                    </h3>
+                  </div>
+                  <div className="relative z-10 bg-white/10 backdrop-blur-md px-6 py-3 rounded-xl border border-white/20 text-white font-bold text-sm flex items-center gap-2 group-hover:bg-white group-hover:text-green-900 transition-all duration-500 shrink-0">
+                    ভলান্টিয়ার হতে চাই <ArrowRight className="w-4 h-4" />
+                  </div>
+                </Link>
               </section>
 
               <section className="space-y-6 md:space-y-8">

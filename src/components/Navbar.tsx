@@ -1,10 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, UserPlus, LogOut, LayoutDashboard } from 'lucide-react';
+import { Menu, X, User, UserPlus, LogOut, LayoutDashboard, Bot } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useAuth } from '../lib/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
+import Logo from './Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,9 +27,10 @@ export default function Navbar() {
     { name: 'উপজেলা', path: '/upazilas' },
     { name: 'নোটিশ', path: '/notices' },
     { name: 'অভিযোগ', path: '/grievance' },
-    { name: 'ভলান্টিয়ার্স', path: '/volunteers' },
+    { name: 'লিডারবোর্ড', path: '/volunteers' },
     { name: 'জেলার ব্লাড ব্যাংক', path: '/blood-bank' },
     { name: 'Good Governance', path: '/governance' },
+    { name: 'নাগরিক AI', path: '/nagorik-ai' },
   ];
 
   const navigate = useNavigate();
@@ -41,22 +43,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-[20px] border-b border-border/50 shadow-sm py-4 px-6 md:px-12 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
-
-        <div className="w-10 h-10 bg-border/50 rounded-full flex items-center justify-center p-1.5">
-          <img 
-            src="input_file_1.png" 
-            alt="Logo" 
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <div className="flex flex-col">
-          <h1 className="text-lg font-bold leading-none tracking-tight text-heading">
-            নাগরিক বিডি
-          </h1>
-          <span className="text-[10px] font-medium text-body mt-0.5">
-            টাংগাইল জেলা পোর্টাল
-          </span>
-        </div>
+        <Logo size={36} showTagline={true} />
       </Link>
 
       <div className="hidden md:flex items-center gap-8 text-sm font-bold text-heading">
@@ -67,6 +54,9 @@ export default function Navbar() {
         ))}
       </div>
       <div className="hidden md:flex items-center gap-4">
+        <Link to="/nagorik-ai" className="p-2.5 bg-primary/5 text-primary rounded-xl hover:bg-primary/10 transition-all border border-primary/10 group-hover:shadow-lg" title="নাগরিক AI">
+          <Bot className="w-5 h-5"/>
+        </Link>
         {user ? (
           <>
             {isAdmin && (
@@ -97,23 +87,23 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 top-[76px] z-[999] bg-background p-8 overflow-y-auto min-h-screen md:hidden"
           >
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <button
                   key={link.name} 
                   onClick={() => handleMobileNav(link.path)}
-                  className="text-left text-sm font-semibold text-heading border-b border-border pb-3 block w-full"
+                  className="text-left text-xs font-semibold text-heading border-b border-border pb-2 block w-full"
                 >
                   {link.name}
                 </button>
               ))}
               <button
                 onClick={() => handleMobileNav('/auth')}
-                className="text-left text-sm font-semibold text-heading border-b border-border pb-3 block w-full"
+                className="text-left text-xs font-semibold text-heading border-b border-border pb-2 block w-full"
               >
                 নিবন্ধন করুন
               </button>
-              <div className="grid grid-cols-1 gap-4 pt-10">
+              <div className="grid grid-cols-1 gap-4 pt-6">
                 {user ? (
                   <>
                      {isAdmin && <Link to="/admin" onClick={() => setIsOpen(false)} className="bg-primary text-white text-center py-2 rounded-full font-bold">ড্যাশবোর্ড</Link>}

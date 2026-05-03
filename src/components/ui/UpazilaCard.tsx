@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Upazila } from '../types';
+import { Upazila } from '../../types';
 import { ChevronRight, MapPin, Users } from 'lucide-react';
 import { motion } from 'motion/react';
 

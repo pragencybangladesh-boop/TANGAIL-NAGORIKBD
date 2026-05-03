@@ -1,42 +1,68 @@
 import { useState } from 'react';
-import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { getAIResponse } from '../lib/gemini';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 
 interface ChatbotProps {
   iconUrl?: string; // Made optional
 }
 
 export default function Chatbot({ iconUrl }: ChatbotProps) {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [chat, setChat] = useState<{ text: string, sender: 'user' | 'bot' }[]>([
-    { text: 'স্বাগতম! আমি টাঙ্গাইল জেলা নাগরিক সহায়ক। আমি আপনাকে কিভাবে সাহায্য করতে পারি?', sender: 'bot' }
+    { text: 'স্বাগতম Nagorik Ai ইকো সিস্টেমে।  কিভাবে আপনাকে সহযোগিতা করতে পারি?', sender: 'bot' }
   ]);
 
-  const handleSend = () => {
-    if (!message.trim()) return;
-    setChat([...chat, { text: message, sender: 'user' }]);
-    setMessage('');
+  const handleSend = async () => {
+    if (!message.trim() || isLoading) return;
     
-    // Simple AI Response simulation
-    setTimeout(() => {
-      setChat(prev => [...prev, { 
-        text: 'আপনার বার্তার জন্য ধন্যবাদ। আমি আপনার জিজ্ঞাসার উত্তর দিতে তথ্য সংগ্রহ করছি। আপনি কি কোনো নির্দিষ্ট উপজেলা সম্পর্কে জানতে চান?', 
-        sender: 'bot' 
-      }]);
-    }, 1000);
+    const userMessage = message.trim();
+    setChat(prev => [...prev, { text: userMessage, sender: 'user' }]);
+    setMessage('');
+    setIsLoading(true);
+    
+    try {
+      const response = await getAIResponse(userMessage, "You are a helpful assistant for Nagorik BD portal. Provide concise information about Mymensingh division, government services, and citizen support.");
+      setChat(prev => [...prev, { text: response, sender: 'bot' }]);
+
+      // Log to Firestore
+      try {
+        await addDoc(collection(db, 'aiQueries'), {
+          query: userMessage,
+          response: response,
+          createdAt: serverTimestamp(),
+          userName: user?.displayName || 'Anonymous',
+          email: user?.email || 'N/A',
+          source: 'floating_chatbot'
+        });
+      } catch (logError) {
+        console.error("Error logging AI query from chatbot:", logError);
+      }
+    } catch (error) {
+      console.error(error);
+      setChat(prev => [...prev, { text: 'দুঃখিত, আমি এই মুহূর্তে উত্তর দিতে পারছি না।', sender: 'bot' }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-[60]">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="relative group bg-white shadow-2xl hover:scale-105 transition-all duration-300 ring-4 ring-slate-100/50 flex items-center justify-center w-16 h-16 rounded-2xl"
+        className="relative group bg-white shadow-2xl hover:scale-105 transition-all duration-300 ring-4 ring-slate-100/50 flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden"
       >
-        <div className="w-full h-full bg-primary text-white rounded-2xl flex items-center justify-center overflow-hidden border border-white/10 shadow-inner">
-          <Bot className="w-8 h-8" strokeWidth={1.5} />
+        <div className="w-full h-full bg-white flex items-center justify-center p-2">
+          <Logo showText={false} size={40} />
         </div>
-        <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full animate-pulse" />
+        <div className="absolute top-1 right-1 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full animate-pulse" />
       </button>
 
       <AnimatePresence>
@@ -50,8 +76,8 @@ export default function Chatbot({ iconUrl }: ChatbotProps) {
             {/* Header */}
             <div className="bg-primary p-6 text-white flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center p-2 backdrop-blur-sm">
-                  <MessageCircle className="w-5 h-5 text-accent" />
+                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-sm">
+                  <Logo showText={false} size={24} />
                 </div>
                 <div>
                   <h4 className="font-semibold text-lg tracking-tight text-white">Nagorik AI</h4>
@@ -79,6 +105,14 @@ export default function Chatbot({ iconUrl }: ChatbotProps) {
                   </div>
                 </div>
               ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white px-5 py-3 rounded-2xl text-xs text-slate-400 italic shadow-sm border border-slate-100 rounded-tl-none flex items-center gap-2">
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                    <span>উত্তর তৈরি হচ্ছে...</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}

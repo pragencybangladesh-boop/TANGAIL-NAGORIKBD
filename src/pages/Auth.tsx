@@ -68,7 +68,7 @@ export default function Auth() {
               <span className="text-accent text-[11px] font-bold uppercase tracking-[0.6em]">Smart Governance</span>
               <h2 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] tracking-tight">আপনার ডিজিটাল <br/><span className="text-accent underline decoration-[10px] decoration-accent/20 underline-offset-[12px]">পরিচয়</span> নিশ্চিত করুন</h2>
             </div>
-            <p className="text-white/50 text-xl font-medium leading-relaxed max-w-md">টাঙ্গাইল জেলার সমন্বিত নাগরিক পোর্টালের মাধ্যমে সকল সরকারি সেবা এখন আপনার হাতের নাগালে। নিরাপদ ও দ্রুত সেবার অভিজ্ঞতায় আপনাকে স্বাগতম।</p>
+            <p className="text-white/50 text-xl font-medium leading-relaxed max-w-md">ময়মনসিংহ জেলার সমন্বিত নাগরিক পোর্টালের মাধ্যমে সকল সরকারি সেবা এখন আপনার হাতের নাগালে। নিরাপদ ও দ্রুত সেবার অভিজ্ঞতায় আপনাকে স্বাগতম।</p>
           </motion.div>
         </div>
       </div>

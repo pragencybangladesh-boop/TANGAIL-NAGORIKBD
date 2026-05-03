@@ -1,10 +1,12 @@
-import { UPAZILAS } from '../data/upazilas';
-import UpazilaCard from '../components/UpazilaCard';
-import WeatherCard from '../components/WeatherCard';
+import { UPAZILAS } from '../data/mymensingh';
+import UpazilaCard from '../components/ui/UpazilaCard';
+import WeatherCard from '../components/ui/WeatherCard';
+import { doc, getDocs, query, collection, where } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, Users, Mic, ArrowRight, Activity, FileText, Heart, GraduationCap, Zap, Sprout, Scale, Gavel, MessageSquare } from 'lucide-react';
+import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, Users, Mic, ArrowRight, Activity, FileText, Heart, GraduationCap, Zap, Sprout, Scale, Gavel, MessageSquare, Clock, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const QUICK_ACTIONS = [
     { label: 'ভূমি সেবা', icon: Landmark, color: 'bg-emerald-50', iconColor: 'text-emerald-700', path: '/services' },
@@ -22,15 +24,40 @@ const QUICK_ACTIONS = [
 ];
 
 const HERO_STATS = [
-    {label: 'উপজেলা', value: '৭'},
-    {label: 'অনলাইন সেবা', value: '৪৫+'},
+    {label: 'উপজেলা', value: '১৩'},
+    {label: 'অনলাইন সেবা', value: '৫০+'},
     {label: 'ডিজিটাল সেবা', value: '২৪/৭'},
-    {label: 'নাগরিক সহায়তক', value: 'AI'},
+    {label: 'নাগরিক সহায়ক', value: 'AI'},
 ];
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
+  const [globalStats, setGlobalStats] = useState({
+    total: 0,
+    resolved: 0,
+    pending: 0,
+    inProgress: 0
+  });
+
+  useEffect(() => {
+    const fetchGlobalStats = async () => {
+      try {
+        const q = query(collection(db, 'complaints'));
+        const snapshot = await getDocs(q);
+        const docs = snapshot.docs.map(doc => doc.data());
+        setGlobalStats({
+          total: docs.length,
+          resolved: docs.filter(d => d.status === 'Resolved' || d.status === 'Completed').length,
+          pending: docs.filter(d => d.status === 'Pending').length,
+          inProgress: docs.filter(d => d.status === 'In Progress' || d.status === 'Processing').length
+        });
+      } catch (error) {
+        console.error("Error fetching global stats:", error);
+      }
+    };
+    fetchGlobalStats();
+  }, []);
 
   return (
     <div className="bg-background">
@@ -51,14 +78,14 @@ export default function Home() {
           </motion.div>
 
           <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
-            টাঙ্গাইল জেলা নাগরিক পোর্টাল
+            ময়মনসিংহ ডিজিটাল পোর্টাল
           </h1>
           <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
             নাগরিক বাংলাদেশ
           </h2>
 
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-            টাঙ্গাইল জেলার ডিজিটাল প্ল্যাটফর্ম — স্বচ্ছ, দ্রুত ও আধুনিক সেবায় নাগরিকের পাশে। ৭টি উপজেলার ৪৫+ অনলাইন সেবা এক জায়গায়।
+            ময়মনসিংহ জেলার ডিজিটাল প্ল্যাটফর্ম — স্বচ্ছ, দ্রুত ও আধুনিক সেবায় নাগরিকের পাশে। ১৩টি উপজেলার ৫০+ অনলাইন সেবা এক জায়গায়।
           </p>
 
           <div className="flex flex-row items-center justify-center gap-4 pt-6">
@@ -91,7 +118,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-6 mb-32">
         <div className="flex flex-col items-center text-center space-y-4 mb-20">
           <span className="text-green-800 bg-green-50 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mt-12">ডিজিটাল নাগরিক সেবা পোর্টাল</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-primary">টাঙ্গাইল জেলার সেবাসমূহ</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary">আমাদের সেবাসমূহ</h2>
           <p className="text-body max-w-2xl text-lg">সরকারি সেবা সহজীকরণ ও নাগরিকের দোরগোড়ায় — দ্রুত, স্বচ্ছ ও নির্ভরযোগ্য সেবা প্রদান।</p>
         </div>
 
@@ -181,12 +208,13 @@ export default function Home() {
       </section>
 
       {/* Volunteer CTA */}
-      <section className="max-w-7xl mx-auto px-6 mb-32 flex justify-center">
+      <section className="max-w-7xl mx-auto px-6 mb-32 flex flex-col items-center gap-6">
+        <h3 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight text-center">Good Citizens build Good Governance</h3>
         <Link 
           to="/volunteer-registration" 
-          className="px-8 py-4 bg-green-700 text-white font-bold rounded-xl hover:bg-green-600 transition-all flex items-center gap-3 text-lg shadow-lg border border-green-600 whitespace-nowrap hover:scale-105"
+          className="px-10 py-5 bg-emerald-700 text-white font-bold rounded-2xl hover:bg-emerald-600 transition-all flex items-center gap-4 text-xl shadow-2xl border border-emerald-600/50 whitespace-nowrap hover:scale-105 group"
         >
-          ভলান্টিয়ার জয়েন করতে ক্লিক করুন <ArrowRight className="w-5 h-5" />
+          নাগরিক বাংলাদেশ এর অংশ হতে জয়েন করুন <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
         </Link>
       </section>
 
@@ -225,6 +253,50 @@ export default function Home() {
             <button onClick={(e) => { e.preventDefault(); navigate('/grievance'); }} className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all text-base">অভিযোগ জমা দিন</button>
           </form>
         </div>
+      </section>
+
+      {/* Global Complaint Statistics Section */}
+      <section className="max-w-7xl mx-auto px-6 pb-24">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_8px_40px_rgb(0,0,0,0.03)] overflow-hidden"
+        >
+          <div className="bg-slate-50/50 px-8 py-6 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Activity className="w-5 h-5 text-accent" />
+              <h3 className="text-sm font-bold text-slate-700 tracking-wider uppercase">সারাদেশে নাগরিক অভিযোগের চিত্র</h3>
+            </div>
+            <Link to="/grievance" className="text-[10px] font-black text-accent hover:text-primary transition-colors uppercase tracking-[0.2em] flex items-center gap-2">
+              অভিযোগ জমা দিন <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          
+          <div className="p-10 md:p-14">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-4 divide-x-0 md:divide-x divide-slate-100 text-center md:text-left">
+              {[
+                { label: 'মোট অভিযোগ', value: globalStats.total, color: 'text-slate-900', icon: MessageSquare },
+                { label: 'সমাধানকৃত', value: globalStats.resolved, color: 'text-emerald-600', icon: CheckCircle2 },
+                { label: 'অপেক্ষমান', value: globalStats.pending, color: 'text-rose-500', icon: Clock },
+                { label: 'প্রক্রিয়াধীন', value: globalStats.inProgress, color: 'text-blue-600', icon: Activity }
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col md:px-10 first:pl-0 last:pr-0">
+                  <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+                    <stat.icon className="w-3 h-3 text-slate-300" />
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{stat.label}</span>
+                  </div>
+                  <span className={`text-4xl md:text-6xl font-black ${stat.color} tracking-tighter tabular-nums leading-none`}>
+                    {stat.value.toLocaleString('bn-BD')}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-12 text-[11px] text-slate-400 font-medium text-center border-t border-slate-50 pt-8 italic">
+              * সকল উপজেলার সম্মিলিত তথ্যের ভিত্তিতে প্রতি মিনিটে স্বয়ংক্রিয়ভাবে আপডেট করা হয়।
+            </p>
+          </div>
+        </motion.div>
       </section>
 
       {/* Floating Login CTA -> Good Governance */}

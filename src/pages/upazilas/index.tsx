@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { UPAZILAS } from '../data/upazilas';
-import UpazilaCard from '../components/UpazilaCard';
+import { UPAZILAS } from '../../data/mymensingh';
+import UpazilaCard from '../../components/ui/UpazilaCard';
 import { MapPin, Search } from 'lucide-react';
 
 export default function UpazilaList() {
@@ -14,7 +14,7 @@ export default function UpazilaList() {
             <div className="inline-flex items-center gap-3 bg-accent/10 px-6 py-2.5 rounded-full text-accent text-[11px] font-bold uppercase tracking-[0.4em]">Administrative Units</div>
             <h1 className="text-5xl md:text-8xl font-bold text-slate-900 leading-none tracking-tight">উপজেলা <span className="text-accent underline decoration-[12px] decoration-accent/20 underline-offset-[16px]">সমূহ</span></h1>
             <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">
-              টাঙ্গাইল জেলার ১২টি উপজেলা। প্রতিটি উপজেলার নিজস্ব ঐতিহ্য এবং প্রশাসনিক তথ্যাবলী এখান থেকে সংগ্রহ করতে পারবেন।
+              ময়মনসিংহ জেলার উপজেলাসমূহ। প্রতিটি উপজেলার নিজস্ব ঐতিহ্য এবং প্রশাসনিক তথ্যাবলী এখান থেকে সংগ্রহ করতে পারবেন।
             </p>
           </div>
 

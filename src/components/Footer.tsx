@@ -1,4 +1,4 @@
-import { Facebook, Youtube, Mail, Phone, MapPin, ExternalLink, ShieldCheck, BarChart3, MessageSquare, CheckSquare } from 'lucide-react';
+import { Facebook, Youtube, Mail, Phone, MapPin, ExternalLink, ShieldCheck, MessageSquare, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -19,11 +19,11 @@ export default function Footer() {
             </div>
             <div className="flex flex-col">
               <h3 className="text-2xl font-bold text-white leading-tight">নাগরিক বিডি</h3>
-              <span className="text-[13px] text-white/70 font-medium">টাঙ্গাইল জেলা পোর্টাল</span>
+              <span className="text-[13px] text-white/70 font-medium">ময়মনসিংহ ডিজিটাল পোর্টাল</span>
             </div>
           </div>
           <p className="text-white/70 text-[15px] leading-relaxed max-w-2xl font-medium">
-            টাঙ্গাইল জেলার ডিজিটাল নাগরিক প্ল্যাটফর্ম — সরকারি সেবা সহজীকরণ ও নাগরিক অংশগ্রহণ নিশ্চিত করার একটি উদ্যোগ।
+            ময়মনসিংহ জেলার ডিজিটাল নাগরিক প্ল্যাটফর্ম — সরকারি সেবা সহজীকরণ ও নাগরিক অংশগ্রহণ নিশ্চিত করার একটি উদ্যোগ।
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex gap-3 items-start">
                 <MapPin className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
-                <span className="text-white/70 font-medium text-[15px]">জেলা প্রশাসকের কার্যালয়, টাঙ্গাইল</span>
+                <span className="text-white/70 font-medium text-[15px]">ময়মনসিংহ ডিজিটাল সার্ভিস বোর্ড</span>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="w-5 h-5 text-white/60 shrink-0" />
@@ -94,14 +94,14 @@ export default function Footer() {
           </div>
 
           {/* Partner Network */}
-          <div className="lg:col-span-1 border border-white/10 p-6 rounded-2xl bg-white/[0.02]">
+          <div className="lg:col-span-1 border border-white/10 p-6 rounded-lg bg-white/[0.02]">
             <h4 className="text-[#ffda7c] text-lg font-bold mb-2">পার্টনার নেটওয়ার্ক</h4>
             <p className="text-white/60 text-sm mb-6">নাগরিক বিডি পরিবারের অন্যান্য প্ল্যাটফর্ম</p>
             
             <div className="space-y-4">
-              <a href="https://nagorikbd.org" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-xl hover:bg-[#1f402c] transition-colors group">
+              <a href="https://nagorikbd.org" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-md hover:bg-[#1f402c] transition-colors group">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 bg-white/5 rounded-md flex items-center justify-center shrink-0">
                     <ShieldCheck className="w-5 h-5 text-[#ffda7c]" />
                   </div>
                   <div>
@@ -111,38 +111,26 @@ export default function Footer() {
                 </div>
               </a>
 
-              <a href="https://insightsbangladesh.com" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-xl hover:bg-[#1f402c] transition-colors group">
+              <a href="https://aigovbd.org" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-md hover:bg-[#1f402c] transition-colors group">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center shrink-0">
-                    <BarChart3 className="w-5 h-5 text-[#ffda7c]" />
+                  <div className="w-10 h-10 bg-white/5 rounded-md flex items-center justify-center shrink-0">
+                    <Globe className="w-5 h-5 text-[#ffda7c]" />
                   </div>
                   <div>
-                    <h5 className="text-white font-bold text-[15px] flex items-center gap-2">Insights Bangladesh <ExternalLink className="w-3.5 h-3.5 text-white/40 group-hover:text-white/80" /></h5>
-                    <p className="text-white/50 text-[13px] mt-0.5">ডেটা, রিসার্চ ও অন্তর্দৃষ্টি</p>
+                    <h5 className="text-white font-bold text-[15px] flex items-center gap-2">AI Governance BD <ExternalLink className="w-3.5 h-3.5 text-white/40 group-hover:text-white/80" /></h5>
+                    <p className="text-white/50 text-[13px] mt-0.5">এআই গভর্নেন্স রিসার্চ পোর্টাল</p>
                   </div>
                 </div>
               </a>
 
-              <a href="https://talkbangladesh.com" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-xl hover:bg-[#1f402c] transition-colors group">
+              <a href="https://talkbangladesh.com" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-md hover:bg-[#1f402c] transition-colors group">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 bg-white/5 rounded-md flex items-center justify-center shrink-0">
                     <MessageSquare className="w-5 h-5 text-[#ffda7c]" />
                   </div>
                   <div>
                     <h5 className="text-white font-bold text-[15px] flex items-center gap-2">Talk Bangladesh <ExternalLink className="w-3.5 h-3.5 text-white/40 group-hover:text-white/80" /></h5>
                     <p className="text-white/50 text-[13px] mt-0.5">সোশ্যাল কমিউনিটি প্ল্যাটফর্ম</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="https://factcheckbd.org" target="_blank" rel="noopener noreferrer" className="block bg-[#1a3826] border border-white/5 p-4 rounded-xl hover:bg-[#1f402c] transition-colors group">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center shrink-0">
-                    <CheckSquare className="w-5 h-5 text-[#ffda7c]" />
-                  </div>
-                  <div>
-                    <h5 className="text-white font-bold text-[15px] flex items-center gap-2">Fact Check BD <ExternalLink className="w-3.5 h-3.5 text-white/40 group-hover:text-white/80" /></h5>
-                    <p className="text-white/50 text-[13px] mt-0.5">ফ্যাক্ট চেকিং প্ল্যাটফর্ম</p>
                   </div>
                 </div>
               </a>
@@ -153,7 +141,7 @@ export default function Footer() {
         {/* Footer Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-[13px] font-medium text-center md:text-left">
-            &copy; {currentYear} নাগরিক বিডি — টাঙ্গাইল জেলা পোর্টাল। সর্বস্বত্ব সংরক্ষিত।
+            &copy; {currentYear} নাগরিক বিডি — ডিজিটাল বাংলাদেশ পোর্টাল। সর্বস্বত্ব সংরক্ষিত।
           </p>
           <div className="flex items-center gap-6 text-[13px] font-medium text-white/50">
             <button className="hover:text-white/80 transition-colors">গোপনীয়তা নীতি</button>

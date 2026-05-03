@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Phone, Search, MapPin, Shield, Ambulance, Flame, Landmark, Siren, PhoneCall } from 'lucide-react';
-import { UPAZILAS } from '../data/upazilas';
+import { UPAZILAS } from '../data/mymensingh';
 
 interface Contact {
   name: string;
@@ -12,19 +12,18 @@ interface Contact {
 }
 
 const CONTACTS: Contact[] = [
-  // Tangail Sadar
-  { name: 'উপজেলা নির্বাহী অফিসার', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০০', category: 'Administration', upazila: 'tangail-sadar' },
-  { name: 'ওসি, সদর থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৯০০', category: 'Police', upazila: 'tangail-sadar' },
-  { name: 'ফায়ার সার্ভিস স্টেশন', role: 'জরুরি সেবা', phone: '০৯৯১-৬৩১৩৩', category: 'Fire', upazila: 'tangail-sadar' },
-  { name: 'সিভিল সার্জন অফিস', role: 'স্বাস্থ্য সেবা', phone: '০৯৯১-৬২৪২৪', category: 'Health', upazila: 'tangail-sadar' },
+  // Mymensingh Sadar
+  { name: 'উপজেলা নির্বাহী অফিসার', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০০', category: 'Administration', upazila: 'mymensingh-sadar' },
+  { name: 'ওসি, কোতোয়ালী মডেল থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১০৯৯০০', category: 'Police', upazila: 'mymensingh-sadar' },
+  { name: 'ফায়ার সার্ভিস স্টেশন', role: 'জরুরি সেবা', phone: '০৯১-৬৩১৩৩', category: 'Fire', upazila: 'mymensingh-sadar' },
+  { name: 'সিভিল সার্জন অফিস', role: 'স্বাস্থ্য সেবা', phone: '০৯১-৬২৪২৪', category: 'Health', upazila: 'mymensingh-sadar' },
   
-  // Madhupur
-  { name: 'ইউএনও, মধুপুর', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৭', category: 'Administration', upazila: 'madhupur' },
-  { name: 'ওসি, মধুপুর থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৯২৫', category: 'Police', upazila: 'madhupur' },
+  // Muktagacha
+  { name: 'ইউএনও, মুক্তাগাছা', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৭', category: 'Administration', upazila: 'muktagacha' },
+  { name: 'ওসি, মুক্তাগাছা থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৯২৫', category: 'Police', upazila: 'muktagacha' },
   
-  // Mirzapur
-  { name: 'ইউএনও, মির্জাপুর', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৮', category: 'Administration', upazila: 'mirzapur' },
-  { name: 'ফায়ার সার্ভিস, মির্জাপুর', role: 'জরুরি সেবা', phone: '০১৭৩৩-৩৩৬৮০৮', category: 'Fire', upazila: 'mirzapur' },
+  // Fulbaria
+  { name: 'ইউএনও, ফুলবাড়ীয়া', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৮', category: 'Administration', upazila: 'fulbaria' },
 ];
 
 export default function Contacts() {
@@ -51,7 +50,7 @@ export default function Contacts() {
           </motion.div>
           <div className="space-y-6">
             <h1 className="text-5xl md:text-8xl font-bold text-slate-900 tracking-tight leading-none uppercase">জরুরি <span className="text-accent underline decoration-[12px] decoration-accent/20 underline-offset-[16px]">যোগাযোগ</span></h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">টাঙ্গail জেলার প্রতিটি উপজেলা ও পৌরসভার প্রশাসনিক এবং জরুরি সেবা প্রদানকারী কর্মকর্তাদের সাথে যোগাযোগের সরাসরি ডিরেক্টরি।</p>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">ময়মনসিংহ জেলার প্রতিটি উপজেলা ও পৌরসভার প্রশাসনিক এবং জরুরি সেবা প্রদানকারী কর্মকর্তাদের সাথে যোগাযোগের সরাসরি ডিরেক্টরি।</p>
           </div>
         </div>
 

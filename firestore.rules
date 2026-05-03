@@ -87,5 +87,12 @@ service cloud.firestore {
       allow read: if isSignedIn() && (isAdmin() || request.auth.token.email == email);
       allow write: if isAdmin();
     }
+
+    match /aiQueries/{queryId} {
+      allow list: if isAdmin();
+      allow get: if isAdmin();
+      allow create: if true; // Allow anonymous logging
+      allow delete: if isAdmin();
+    }
   }
 }
