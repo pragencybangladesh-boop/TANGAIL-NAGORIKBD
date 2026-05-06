@@ -93,6 +93,57 @@
         "email": { "type": "string" }
       },
       "required": ["query", "response", "createdAt"]
+    },
+    "governancePost": {
+      "title": "Governance Post",
+      "description": "Activity, blog, or fact-check post",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string" },
+        "type": { "type": "string", "enum": ["blog", "activity", "fact-check"] },
+        "verdict": { "type": "string", "description": "Verdict for fact-check e.g. সত্য, মিথ্যা, বিভ্রান্তিকর" }
+      },
+      "required": ["title", "content", "date", "type"]
+    },
+    "factCheckClaim": {
+      "title": "Fact Check Claim",
+      "description": "A claim submitted by a user for fact checking",
+      "type": "object",
+      "properties": {
+        "claim": { "type": "string" },
+        "source": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "reviewing", "checked"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["claim", "status", "createdAt"]
+    },
+    "marketReport": {
+      "title": "Market Report",
+      "description": "User reported market price",
+      "type": "object",
+      "properties": {
+        "itemName": { "type": "string" },
+        "price": { "type": "string" },
+        "area": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["itemName", "price", "area", "createdAt"]
+    },
+    "citizenSurvey": {
+      "title": "Citizen Survey",
+      "description": "User feedback on local issues and services",
+      "type": "object",
+      "properties": {
+        "biggestIssue": { "type": "string" },
+        "worstDepartment": { "type": "string" },
+        "digitalizationNeed": { "type": "string" },
+        "lastHarassment": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["biggestIssue", "worstDepartment", "digitalizationNeed", "lastHarassment", "createdAt"]
     }
   },
   "firestore": {
@@ -123,6 +174,22 @@
     "/aiQueries/{queryId}": {
       "schema": "aiQuery",
       "description": "Logs of AI chatbot interactions"
+    },
+    "/governance_posts/{postId}": {
+      "schema": "governancePost",
+      "description": "Public governance posts"
+    },
+    "/fact_check_claims/{claimId}": {
+      "schema": "factCheckClaim",
+      "description": "Claims submitted by users for fact checking"
+    },
+    "/market_reports/{reportId}": {
+      "schema": "marketReport",
+      "description": "User reported market prices"
+    },
+    "/citizen_surveys/{surveyId}": {
+      "schema": "citizenSurvey",
+      "description": "Citizen survey responses"
     }
   }
 }

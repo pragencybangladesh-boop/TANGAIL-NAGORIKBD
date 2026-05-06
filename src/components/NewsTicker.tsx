@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bell } from 'lucide-react';
-import { db } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 
 export default function NewsTicker() {
@@ -11,6 +11,8 @@ export default function NewsTicker() {
     const q = query(collection(db, 'notices'), orderBy('createdAt', 'desc'), limit(5));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setNotices(snapshot.docs.map(doc => doc.data().title));
+    }, (error) => {
+      handleFirestoreError(error, OperationType.LIST, 'notices');
     });
     return unsubscribe;
   }, []);

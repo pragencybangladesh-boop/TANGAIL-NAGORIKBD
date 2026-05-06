@@ -1,98 +1,200 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Phase 0: Default Deny
     match /{document=**} {
       allow read, write: if false;
     }
 
+    // --- Helpers ---
     function isSignedIn() { return request.auth != null; }
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    // Auth context helpers
+    function isEmailVerified() { return request.auth.token.email_verified == true; }
+    
+    // Admin check from hardcoded list (as seen in previous rules)
     function isAdmin() { 
-      return isSignedIn() && (request.auth.token.email == 'md.nafiul.ahmad.rafi@gmail.com' || request.auth.token.email == 'rafi011022@gmail.com');
+      return isSignedIn() && (
+        request.auth.token.email == 'pr.agency.bangladesh@gmail.com' || 
+        request.auth.token.email == 'md.nafiul.ahmad.rafi@gmail.com' || 
+        request.auth.token.email == 'rafi011022@gmail.com'
+      );
+    }
+
+    // Role-based helpers
+    function getUserRole() {
+      return get(/databases/$(database)/documents/roles/$(request.auth.token.email)).data;
     }
     
-    function getRoles() {
-      let roleDoc = get(/databases/$(database)/documents/roles/$(request.auth.token.email));
-      return roleDoc != null ? roleDoc.data : {};
+    function hasRole(roleField) {
+      let roleDoc = /databases/$(database)/documents/roles/$(request.auth.token.email);
+      return isSignedIn() && exists(roleDoc) && get(roleDoc).data[roleField] == true;
     }
 
     function isNoticeEditor() {
-      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.token.email)) && getRoles().canEditNotices == true);
+      return isAdmin() || hasRole('canEditNotices');
     }
 
     function isComplaintMonitor() {
-      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.token.email)) && getRoles().canMonitorComplaints == true);
+      return isAdmin() || hasRole('canMonitorComplaints');
     }
 
-    function isValidDonor(data) { 
-        return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
-               data.bloodGroup is string && data.bloodGroup.matches('^(A|B|AB|O)[+-]$') &&
-               data.address is string && data.address.size() > 0 && data.address.size() <= 200 &&
-               data.phone is string && data.phone.matches('^[0-9]{11}$') &&
-               (data.lastDonationDate == null || data.lastDonationDate is string);
+    // --- Validation Helpers ---
+    
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email']) &&
+             data.uid is string && data.uid.size() <= 128 &&
+             data.email is string && data.email.size() <= 256 &&
+             (!data.keys().hasAny(['phoneNumber']) || (data.phoneNumber is string && data.phoneNumber.size() <= 20)) &&
+             (!data.keys().hasAny(['name']) || (data.name is string && data.name.size() <= 100)) &&
+             (!data.keys().hasAny(['address']) || (data.address is string && data.address.size() <= 250)) &&
+             (!data.keys().hasAny(['nidNumber']) || (data.nidNumber is string && data.nidNumber.size() <= 50)) &&
+             (!data.keys().hasAny(['settings']) || data.settings is map);
+    }
+
+    function isValidBloodDonor(data) {
+      return data.keys().hasAll(['name', 'bloodGroup', 'address', 'phone']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.bloodGroup is string && data.bloodGroup.matches('^(A|B|AB|O)[+-]$') &&
+             data.address is string && data.address.size() <= 200 &&
+             data.phone is string && data.phone.matches('^01[3-9]\\d{8}$');
     }
 
     function isValidNotice(data) {
-        return data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
-               data.category is string && data.category.size() > 0 &&
-               data.date is string &&
-               data.upazila is string && data.upazila.size() > 0 &&
-               (data.urgent == null || data.urgent is bool);
+      return data.keys().hasAll(['title', 'category', 'date', 'upazila']) &&
+             data.title is string && data.title.size() <= 200 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.date is string &&
+             data.upazila is string && data.upazila.size() <= 50;
     }
 
     function isValidComplaint(data) {
-        return data.name is string && data.name.size() > 0 &&
-               data.email is string && data.email.size() > 0 &&
-               data.message is string && data.message.size() > 0;
+      return data.keys().hasAll(['name', 'email', 'message', 'trackingId', 'status']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.email is string && data.email.size() <= 256 &&
+             data.message is string && data.message.size() <= 2000 &&
+             data.trackingId is string && data.trackingId.matches('^SRP-\\d{6}$') &&
+             data.status is string && data.status in ['Pending', 'Processing', 'Resolved', 'Rejected'];
     }
 
     function isValidVolunteer(data) {
-        return data.name is string && data.name.size() > 0 &&
-               data.area is string && data.area.size() > 0 &&
-               data.phone is string && data.phone.matches('^[0-9]{11}$');
+      return data.keys().hasAll(['name', 'phone', 'trackingId', 'status']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.phone is string && data.phone.matches('^01[3-9]\\d{8}$') &&
+             data.trackingId is string && data.trackingId.size() <= 20 &&
+             data.status is string && data.status in ['অপেক্ষমান', 'অনুমোদিত', 'বাতিল'];
+    }
+
+    function isValidAIQuery(data) {
+      return data.keys().hasAll(['query', 'response', 'createdAt']) &&
+             data.query is string && data.query.size() <= 1000 &&
+             data.response is string && data.response.size() <= 5000 &&
+             (!data.keys().hasAny(['userName']) || (data.userName is string && data.userName.size() <= 100)) &&
+             (!data.keys().hasAny(['email']) || (data.email is string && data.email.size() <= 256)) &&
+             (!data.keys().hasAny(['uid']) || (data.uid is string && data.uid.size() <= 128)) &&
+             (!data.keys().hasAny(['source']) || (data.source is string && data.source.size() <= 100));
+    }
+
+    function isValidFactCheckClaim(data) {
+      return data.keys().hasAll(['claim', 'status', 'createdAt']) &&
+             data.claim is string && data.claim.size() <= 2000 &&
+             data.status in ['pending', 'reviewing', 'checked'];
+    }
+
+    function isValidMarketReport(data) {
+      return data.keys().hasAll(['itemName', 'price', 'area', 'createdAt']) &&
+             data.itemName is string && data.itemName.size() <= 100 &&
+             data.price is string && data.price.size() <= 50 &&
+             data.area is string && data.area.size() <= 100;
+    }
+
+    function isValidCitizenSurvey(data) {
+      return data.keys().hasAll(['biggestIssue', 'worstDepartment', 'digitalizationNeed', 'lastHarassment', 'createdAt']) &&
+             data.biggestIssue is string && data.biggestIssue.size() <= 200 &&
+             data.worstDepartment is string && data.worstDepartment.size() <= 200 &&
+             data.digitalizationNeed is string && data.digitalizationNeed.size() <= 200 &&
+             data.lastHarassment is string && data.lastHarassment.size() <= 200;
+    }
+
+    // --- Rules ---
+
+    match /test-connection/{docId} {
+      allow read: if true;
     }
 
     match /users/{userId} {
-      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidUser(incoming());
+      allow update: if isSignedIn() && request.auth.uid == userId && 
+                    incoming().diff(existing()).affectedKeys().hasOnly(['phoneNumber', 'name', 'address', 'nidNumber', 'settings']) && 
+                    isValidUser(incoming());
+    }
+
+    match /roles/{email} {
+      allow get: if isSignedIn() && (request.auth.token.email == email || isAdmin());
+      allow write: if isAdmin();
     }
 
     match /bloodDonors/{donorId} {
       allow list: if true;
-      allow create: if isSignedIn() && isValidDonor(request.resource.data);
+      allow get: if true;
+      allow create: if isSignedIn() && isValidBloodDonor(incoming());
       allow update, delete: if isAdmin();
     }
 
     match /notices/{noticeId} {
       allow read: if true;
-      allow create, update: if isNoticeEditor() && isValidNotice(request.resource.data);
+      allow create: if isNoticeEditor() && isValidNotice(incoming());
+      allow update: if isNoticeEditor() && isValidNotice(incoming());
       allow delete: if isAdmin();
     }
 
     match /complaints/{complaintId} {
-      allow list: if isComplaintMonitor();
-      allow get: if true; // Anyone with tracking ID (complaintId) can fetch it
-      allow create: if isValidComplaint(request.resource.data);
-      allow update: if isComplaintMonitor();
+      allow list: if true; // Public stats
+      allow get: if isValidId(complaintId);
+      allow create: if isValidComplaint(incoming());
+      allow update: if (isComplaintMonitor() && 
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status'])) || isAdmin();
       allow delete: if isAdmin();
     }
 
     match /volunteers/{volunteerId} {
-      allow list: if true;
-      allow create: if isValidVolunteer(request.resource.data);
-      allow update, delete: if isAdmin();
-    }
-
-    match /roles/{email} {
-      allow read: if isSignedIn() && (isAdmin() || request.auth.token.email == email);
-      allow write: if isAdmin();
+      allow list: if isAdmin();
+      allow get: if isAdmin() || (isValidId(volunteerId)); // Specific lookups for tracking
+      allow create: if isValidVolunteer(incoming());
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     match /aiQueries/{queryId} {
-      allow list: if isAdmin();
-      allow get: if isAdmin();
-      allow create: if true; // Allow anonymous logging
-      allow delete: if isAdmin();
+      allow list: if true; // Public feed
+      allow create: if isValidAIQuery(incoming());
+      allow update, delete: if isAdmin();
+    }
+
+    match /governance_posts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /fact_check_claims/{claimId} {
+      allow read, write: if isAdmin();
+      allow create: if isValidFactCheckClaim(incoming());
+    }
+
+    match /market_reports/{reportId} {
+      allow read: if true;
+      allow create: if isValidMarketReport(incoming());
+      allow update, delete: if isAdmin();
+    }
+
+    match /citizen_surveys/{surveyId} {
+      allow read: if isAdmin();
+      allow create: if isValidCitizenSurvey(incoming());
+      allow update, delete: if isAdmin();
     }
   }
 }

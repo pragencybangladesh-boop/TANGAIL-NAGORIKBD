@@ -1,13 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { UPAZILAS } from '../../data/mymensingh';
+import { UPAZILAS } from '../../data/sylhet';
 import { db } from '../../lib/firebase';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
-import WeatherCard from '../../components/ui/WeatherCard';
+import WeatherCard from '../../lib/hooks/WeatherCard';
 import { 
   ArrowLeft, Users, Landmark, Map, Info, 
   Phone, Globe, Mail, FileText, Camera, ArrowRight,
-  ShieldCheck, ExternalLink, Calendar, MapPin, Activity, Flame
+  ShieldCheck, ExternalLink, Calendar, MapPin, Activity, Flame, Store
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -95,6 +95,7 @@ export default function UpazilaPortal() {
           <img 
             src="input_file_0.png" 
             alt={upazila.name}
+            loading="lazy"
             className="w-full h-full object-cover opacity-[0.08] mix-blend-overlay"
           />
         </div>
@@ -107,7 +108,7 @@ export default function UpazilaPortal() {
             className="space-y-6 max-w-3xl"
           >
             <Link to="/upazilas" className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm font-medium mb-4">
-              <ArrowLeft className="w-4 h-4" /> ময়মনসিংহ জেলা পোর্টালে ফিরুন
+              <ArrowLeft className="w-4 h-4" /> সিলেট জেলা পোর্টালে ফিরুন
             </Link>
             
             <div className="space-y-5">
@@ -121,11 +122,11 @@ export default function UpazilaPortal() {
               </h1>
               
               <p className="text-2xl md:text-3xl text-white/95 font-medium mt-6">
-                ময়মনসিংহ জেলার প্রাণকেন্দ্র
+                সিলেট জেলার প্রাণকেন্দ্র
               </p>
               
               <p className="text-base md:text-lg text-white/70 font-medium mb-10">
-                {upazila.name} · ময়মনসিংহ জেলা, ময়মনসিংহ বিভাগ
+                {upazila.name} · সিলেট জেলা
               </p>
             </div>
             
@@ -177,7 +178,7 @@ export default function UpazilaPortal() {
                   </div>
                   <div className="md:px-2">
                     <p className="text-[#4b5563] leading-[1.8] text-base md:text-lg font-normal text-justify md:text-left mb-8">
-                      {upazila.description} ময়মনসিংহের এই জনপদ প্রাচীন ইতিহাস এবং আধুনিক অর্থনীতির এক অপূর্ব মেলবন্ধন। এখানকার মাটি ও মানুষ যেমন অতিথিপরায়ণ, তেমনই আমাদের ঐতিহ্যবাহী স্থাপত্য শিল্পসমূহ আমাদের জেলাকে করেছে আরও সমৃদ্ধ।
+                      {upazila.description} সিলেটের এই জনপদ প্রাচীন ইতিহাস এবং আধুনিক অর্থনীতির এক অপূর্ব মেলবন্ধন। এখানকার মাটি ও মানুষ যেমন অতিথিপরায়ণ, তেমনই আমাদের ঐতিহ্যবাহী স্থাপত্য শিল্পসমূহ আমাদের জেলাকে করেছে আরও সমৃদ্ধ।
                     </p>
 
                     {/* Emergency Helplines - Slim Rectangular Design */}
@@ -247,7 +248,7 @@ export default function UpazilaPortal() {
                   <div className="relative z-10 flex flex-col items-center md:items-start gap-2">
                     <div className="flex items-center gap-2 text-amber-400">
                       <ShieldCheck className="w-4 h-4" />
-                      <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] italic">Good Citizens build Good Governance</span>
+                      <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] italic">সচেতন নাগরিকই গড়ি আগামীর সুন্দর দেশ</span>
                     </div>
                     <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight text-center md:text-left">
                       {upazila.name} উপজেলা হতে নাগরিক বাংলাদেশ এর অংশ হতে ক্লিক করুন
@@ -281,6 +282,33 @@ export default function UpazilaPortal() {
                 </div>
               </section>
             </div>
+
+            {/* Market Monitor Section */}
+            <section className="py-4">
+              <Link to="/market-monitor" className="block relative group overflow-hidden rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-slate-100 bg-white hover:shadow-xl transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 to-white z-0" />
+                
+                <div className="relative z-10 flex flex-col items-center sm:flex-row justify-between p-8 md:p-10 gap-6">
+                  <div className="flex-1 space-y-4 text-center sm:text-left">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                      <Store className="w-3.5 h-3.5" /> বাজার পর্যবেক্ষণ
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">বাজার সর্দার</h2>
+                    <p className="text-slate-600 font-medium text-sm md:text-base max-w-lg mx-auto sm:mx-0">
+                      সরকার কর্তৃক নির্ধারিত আজকের নিত্যপ্রয়োজনীয় পণ্যের মূল্য দেখুন এবং আপনার এলাকার বাজার দর জানিয়ে মনিটরিংয়ে সহায়তা করুন।
+                    </p>
+                  </div>
+                  
+                  <div className="shrink-0 flex justify-center">
+                     <div className="w-14 h-14 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-600/30 group-hover:scale-110 group-hover:bg-emerald-500 transition-all duration-300">
+                       <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                     </div>
+                  </div>
+                </div>
+                
+                <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emerald-100/50 rounded-full blur-3xl group-hover:bg-emerald-200/50 transition-colors duration-500 pointer-events-none" />
+              </Link>
+            </section>
 
             {/* Services Grid Section */}
             <section className="space-y-8 mt-12 md:mt-16">

@@ -1,6 +1,6 @@
 {
-  "name": "Nagorik BD - Mymensingh Portal",
-  "description": "A high-performance Digital Public Infrastructure (DPI) platform for Mymensingh District citizens, featuring individual portals for all Upazilas and smart AI assistance.",
+  "name": "Sylhet Nagorik BD",
+  "description": "A high-performance Digital Public Infrastructure (DPI) platform for Sylhet District citizens, featuring individual portals for all Upazilas and smart AI assistance.",
   "requestFramePermissions": [
     "camera",
     "microphone",

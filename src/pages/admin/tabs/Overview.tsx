@@ -24,7 +24,7 @@ export default function Overview() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-slate-800 tracking-tight">নতুন অভিযোগ জমা হয়েছে</p>
-                  <p className="text-xs text-slate-400">২ ঘণ্টা আগে • সদর উপজেলা</p>
+                  <p className="text-xs text-slate-400">২ ঘণ্টা আগে • সদর, সিলেট</p>
                 </div>
               </div>
             ))}

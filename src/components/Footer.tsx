@@ -23,7 +23,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-white/70 text-[15px] leading-relaxed max-w-2xl font-medium">
-            ময়মনসিংহ জেলার ডিজিটাল নাগরিক প্ল্যাটফর্ম — সরকারি সেবা সহজীকরণ ও নাগরিক অংশগ্রহণ নিশ্চিত করার একটি উদ্যোগ।
+            সিলেট জেলার ডিজিটাল নাগরিক প্ল্যাটফর্ম — সরকারি সেবা সহজীকরণ ও নাগরিক অংশগ্রহণ নিশ্চিত করার একটি উদ্যোগ।
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex gap-3 items-start">
                 <MapPin className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
-                <span className="text-white/70 font-medium text-[15px]">ময়মনসিংহ ডিজিটাল সার্ভিস বোর্ড</span>
+                <span className="text-white/70 font-medium text-[15px]">সিলেট ডিজিটাল সার্ভিস বোর্ড</span>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="w-5 h-5 text-white/60 shrink-0" />

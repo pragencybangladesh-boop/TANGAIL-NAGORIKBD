@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, Upload, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, MapPin, User, FileText, AlertCircle, Phone, Search } from 'lucide-react';
-import { UPAZILAS } from '../data/mymensingh';
+import toast from 'react-hot-toast';
+import { UPAZILAS } from '../data/sylhet';
 import { useAuth } from '../context/AuthContext';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 
 export default function Grievance() {
@@ -15,6 +16,7 @@ export default function Grievance() {
   const [trackingResult, setTrackingResult] = useState<any>(null);
   const [trackingError, setTrackingError] = useState('');
   const [trackingIdState, setTrackingIdState] = useState('');
+  const [activeTrackingId, setActiveTrackingId] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,15 +33,16 @@ export default function Grievance() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const loadingToast = toast.loading('অভিযোগ জমা দেওয়া হচ্ছে...');
     try {
-      const generatedId = `MYM-${Math.floor(100000 + Math.random() * 900000)}`;
+      const generatedId = `SYL-${Math.floor(100000 + Math.random() * 900000)}`;
       setTrackingIdState(generatedId);
       
       await setDoc(doc(db, 'complaints', generatedId), {
         name: formData.name,
         email: user?.email || 'anonymous',
         phone: formData.phone,
-        district: formData.district || 'Mymensingh',
+        district: formData.district || 'Sylhet',
         upazila: formData.upazila,
         upazilaId: formData.upazila,
         category: formData.category,
@@ -48,27 +51,62 @@ export default function Grievance() {
         trackingId: generatedId,
         status: 'Pending'
       });
+      toast.dismiss(loadingToast);
+      toast.success('আপনার অভিযোগটি সফলভাবে দাখিল করা হয়েছে');
       setIsSubmitted(true);
     } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error('অভিযোগ দাখিল করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন');
       handleFirestoreError(error, OperationType.CREATE, 'complaints');
     }
   };
 
-  const handleTrackSubmit = async (e: React.FormEvent) => {
+  const handleTrackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!trackingInput.trim()) return;
+    setActiveTrackingId(trackingInput.trim());
+  };
+
+  React.useEffect(() => {
+    if (!activeTrackingId) return;
+
     setTrackingError('');
     setTrackingResult(null);
-    try {
-      const docRef = doc(db, 'complaints', trackingInput.trim());
-      const docSnap = await getDoc(docRef);
+
+    const docRef = doc(db, 'complaints', activeTrackingId);
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         setTrackingResult(docSnap.data());
+        setTrackingError('');
       } else {
+        setTrackingResult(null);
         setTrackingError('কোনো অভিযোগ পাওয়া যায়নি।');
       }
-    } catch (error) {
-       handleFirestoreError(error, OperationType.GET, 'complaints');
-       setTrackingError('একটি সমস্যা হয়েছে।');
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'complaints');
+      setTrackingError('একটি সমস্যা হয়েছে।');
+    });
+
+    return () => unsubscribe();
+  }, [activeTrackingId]);
+
+  const getStatusInfo = (status: string) => {
+    switch (status) {
+      case 'Pending':
+      case 'অপেক্ষমান':
+        return { step: 1, label: 'অপেক্ষমান', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200', bar: 'bg-amber-500' };
+      case 'Processing':
+      case 'প্রক্রিয়াধীন':
+        return { step: 2, label: 'প্রক্রিয়াধীন', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200', bar: 'bg-blue-500' };
+      case 'Resolved':
+      case 'Completed':
+      case 'সমাধান করা হয়েছে':
+        return { step: 3, label: 'সমাধান করা হয়েছে', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200', bar: 'bg-emerald-500' };
+      case 'Rejected':
+      case 'বাতিল':
+        return { step: -1, label: 'বাতিল', color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200', bar: 'bg-red-500' };
+      default:
+        return { step: 1, label: status, color: 'text-slate-600', bg: 'bg-slate-50', border: 'border-slate-200', bar: 'bg-slate-400' };
     }
   };
 
@@ -158,7 +196,7 @@ export default function Grievance() {
                     <input 
                       type="text" 
                       required
-                      placeholder="যেমন: MYM-123456"
+                      placeholder="যেমন: JMP-123456"
                       className="w-full bg-slate-50 border-2 border-slate-100 py-3.5 pl-12 pr-6 rounded-2xl font-bold text-slate-900 focus:bg-white focus:border-primary/50 outline-none transition-all text-base"
                       value={trackingInput}
                       onChange={(e) => setTrackingInput(e.target.value)}
@@ -186,22 +224,48 @@ export default function Grievance() {
                   className="pt-8 border-t border-slate-100 space-y-6"
                 >
                   <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-8 space-y-6">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start mb-4">
                       <div className="space-y-1">
                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">আবেদনকারীর নাম</span>
                         <p className="text-xl font-bold text-slate-900">{trackingResult.name}</p>
                       </div>
                       <div className="text-right">
-                        <span className={`inline-block font-bold px-4 py-1.5 rounded-xl text-xs border ${
-                          trackingResult.status === 'অপেক্ষমান' ? 'bg-amber-50 text-amber-600 border-amber-200' :
-                          trackingResult.status === 'সমাধান করা হয়েছে' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
-                          'bg-slate-100 text-slate-600 border-slate-200'
-                        }`}>
-                          {trackingResult.status}
+                        <span className={`inline-block font-bold px-4 py-1.5 rounded-xl text-xs border ${getStatusInfo(trackingResult.status).bg} ${getStatusInfo(trackingResult.status).color} ${getStatusInfo(trackingResult.status).border}`}>
+                          {getStatusInfo(trackingResult.status).label}
                         </span>
                       </div>
                     </div>
                     
+                    {/* Visual Progress Indicator */}
+                    <div className="py-4">
+                      <div className="flex items-start justify-between relative mb-2">
+                        {['Pending', 'Processing', 'Resolved'].map((s, i) => {
+                          const statusInfo = getStatusInfo(s);
+                          const currentStep = getStatusInfo(trackingResult.status).step;
+                          const isActive = currentStep >= i + 1;
+                          const isCurrent = currentStep === i + 1;
+                          
+                          return (
+                            <div key={s} className="flex flex-col items-center relative z-10 w-1/3">
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 bg-white ${isActive ? `${statusInfo.border} ${statusInfo.color}` : 'border-slate-200 text-slate-300'}`}>
+                                {isActive ? <CheckCircle2 className={`w-5 h-5 ${statusInfo.color}`} /> : i + 1}
+                              </div>
+                              <span className={`text-[10px] uppercase tracking-wider font-bold mt-2 text-center transition-colors ${isCurrent ? statusInfo.color : isActive ? 'text-slate-600' : 'text-slate-400'}`}>
+                                {statusInfo.label}
+                              </span>
+                            </div>
+                          );
+                        })}
+                        {/* Connecting Line */}
+                        <div className="absolute left-[16.66%] right-[16.66%] h-[2px] bg-slate-200 top-[15px] z-0">
+                          <div 
+                            className={`h-full transition-all duration-500 ease-out bg-primary`}
+                            style={{ width: `${(Math.max(1, getStatusInfo(trackingResult.status).step) - 1) * 50}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-2 gap-8 pt-6 border-t border-slate-200">
                       <div className="space-y-1">
                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">ক্যাটাগরি</span>
@@ -209,7 +273,9 @@ export default function Grievance() {
                       </div>
                       <div className="space-y-1 text-right">
                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">দাখিলের তারিখ</span>
-                        <p className="text-lg font-bold text-slate-800">{trackingResult.createdAt}</p>
+                        <p className="text-lg font-bold text-slate-800">
+                          {trackingResult.createdAt?.toDate ? trackingResult.createdAt.toDate().toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}
+                        </p>
                       </div>
                     </div>
 

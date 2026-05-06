@@ -5,9 +5,8 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 
 const BLOOD_BANKS = [
-  { name: 'ময়মনসিংহ মেডিকেল কলেজ ব্লাড ব্যাংক', phone: '০৯১-৬৬৬৬৬', address: 'ময়মনসিংহ সদর' },
-  { name: 'রেড ক্রিসেন্ট ব্লাড ব্যাংক, ময়মনসিংহ', phone: '০১৭৩৩-০০০০০০', address: 'ময়মনসিংহ সদর' },
-  { name: 'সন্ধানী ব্লাড ব্যাংক (এমএমসি ইউনিট)', phone: '০৯১-৫৫৫৫৫', address: 'ময়মনসিংহ মেডিকেল কলেজ' },
+  { name: 'সিলেট এম এ জি ওসমানী মেডিকেল কলেজ ব্লাড ব্যাংক', phone: '০১৭৩৩-৩৩৬৭৯০', address: 'সিলেট সদর' },
+  { name: 'রেড ক্রিসেন্ট ব্লাড ব্যাংক, সিলেট', phone: '০১৭৩৩-০০০০০০', address: 'সিলেট সদর' },
 ];
 
 export default function BloodBank() {
@@ -41,7 +40,7 @@ export default function BloodBank() {
         <div className="bg-red-600 p-8 md:p-12 rounded-[2rem] text-center mb-16 shadow-lg relative overflow-hidden">
           <div className="relative z-10 space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">জেলা ব্লাড ব্যাংক</h1>
-            <p className="text-white/90 text-lg font-medium max-w-xl mx-auto">জরুরি প্রয়োজনে ময়মনসিংহ জেলার ব্লাড ব্যাংক ও ডোনারদের সাথে সরাসরি যোগাযোগ করুন।</p>
+            <p className="text-white/90 text-lg font-medium max-w-xl mx-auto">জরুরি প্রয়োজনে সিলেট জেলার ব্লাড ব্যাংক ও ডোনারদের সাথে সরাসরি যোগাযোগ করুন।</p>
           </div>
           {/* Decor */}
           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">

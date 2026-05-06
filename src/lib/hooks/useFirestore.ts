@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../firebase';
 import { collection, query, getDocs, QueryConstraint, onSnapshot } from 'firebase/firestore';
 
 export function useFirestoreCol<T>(colPath: string, constraints: QueryConstraint[] = []) {

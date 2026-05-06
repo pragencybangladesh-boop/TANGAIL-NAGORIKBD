@@ -10,7 +10,7 @@ interface UpazilaCardProps {
   key?: React.Key;
 }
 
-export default function UpazilaCard({ upazila, index }: UpazilaCardProps) {
+export default React.memo(function UpazilaCard({ upazila, index }: UpazilaCardProps) {
   return (
     <motion.div
       whileHover={{ y: -8 }}
@@ -49,4 +49,4 @@ export default function UpazilaCard({ upazila, index }: UpazilaCardProps) {
       </Link>
     </motion.div>
   );
-}
+});

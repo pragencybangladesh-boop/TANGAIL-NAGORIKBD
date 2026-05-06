@@ -76,8 +76,8 @@ export default function InstallPwaBanner() {
 
           {/* Info */}
           <div className="flex-1">
-            <h3 className="text-sm font-bold text-slate-900 leading-tight">Install Nagorik BD</h3>
-            <p className="text-[11px] text-slate-500 font-medium">Add to your home screen for a fast, app-like experience.</p>
+            <h3 className="text-sm font-bold text-slate-900 leading-tight">ইনস্টল করুন সিলেট নাগরিক বিডি</h3>
+            <p className="text-[11px] text-slate-500 font-medium">হোম স্ক্রিনে যুক্ত করুন এবং দ্রুত অ্যাপের মত ব্যবহার করুন।</p>
           </div>
 
           {/* Actions */}
@@ -86,14 +86,14 @@ export default function InstallPwaBanner() {
               onClick={handleDismiss}
               className="px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
             >
-              Later
+              পরে
             </button>
             <button 
               onClick={handleInstall}
               className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-emerald-700 transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
             >
               <Download size={14} />
-              Install
+              ইনস্টল
             </button>
           </div>
         </div>

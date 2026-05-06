@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, handleFirestoreError, OperationType } from '../../../lib/firebase';
-import { collection, query, getDocs, orderBy, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, updateDoc, doc, limit } from 'firebase/firestore';
 import { MessageSquare, CheckCircle2, Clock } from 'lucide-react';
 
 export default function ComplaintsTab() {
@@ -12,7 +12,7 @@ export default function ComplaintsTab() {
 
   const fetchComplaints = async () => {
     try {
-      const q = query(collection(db, 'complaints'), orderBy('createdAt', 'desc'));
+      const q = query(collection(db, 'complaints'), orderBy('createdAt', 'desc'), limit(50));
       const querySnapshot = await getDocs(q);
       setComplaints(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     } catch (e) {

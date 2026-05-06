@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAdmin, setIsAdmin] = useState(false);
   const [roles, setRoles] = useState({ canEditNotices: false, canMonitorComplaints: false });
 
-  const adminEmails = ['md.nafiul.ahmad.rafi@gmail.com', 'rafi011022@gmail.com'];
+  const adminEmails = ['pr.agency.bangladesh@gmail.com', 'md.nafiul.ahmad.rafi@gmail.com', 'rafi011022@gmail.com'];
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

@@ -21,37 +21,33 @@ export default function About() {
           >
             <div className="inline-flex items-center gap-3 bg-accent/10 px-6 py-2.5 rounded-full text-accent text-[11px] font-bold uppercase tracking-[0.4em]">District Profile</div>
             <h1 className="text-4xl md:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight">
-              ময়মনসিংহ জেলা <span className="text-accent underline decoration-[12px] decoration-accent/20 underline-offset-[16px]">পরিচিতি</span>
+              সিলেট জেলা <span className="text-accent underline decoration-[12px] decoration-accent/20 underline-offset-[16px]">পরিচিতি</span>
             </h1>
             <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
-              ময়মনসিংহ জেলা বাংলাদেশের উত্তরাঞ্চলের একটি ঐতিহ্যবাহী ও গুরুত্বপূর্ণ প্রশাসনিক এলাকা। এটি শিক্ষা, সংস্কৃতি ও প্রাচীন ঐতিহ্যে সমৃদ্ধ। ব্রহ্মপুত্র নদের তীরে অবস্থিত এই জেলাটি তার জ্ঞানালোকের জন্য 'প্রাচ্যের অক্সফোর্ড' হিসেবে একসময় পরিচিত ছিল।
+              সিলেট জেলা বাংলাদেশের সিলেট বিভাগের অন্তর্গত একটি ঐতিহাসিক এবং আধ্যাত্মিক রাজধানী। প্রাকৃতিক সৌন্দর্যে ঘেরা এই জেলা সুরমা নদীর তীরে অবস্থিত। হযরত শাহজালাল (রহ.) ও হযরত শাহপরাণ (রহ.)-এর মাজার, চা বাগান, হাওর এবং পাহাড়ী প্রকৃতির জন্য সিলেট বিশ্বজুড়ে সমাদৃত।
             </p>
             <div className="pt-6">
               <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 w-full max-w-[340px] aspect-square flex flex-col justify-center">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">প্রতিষ্ঠাকাল</p>
-                    <p className="text-xl font-bold text-primary">১৭৮৭ সাল</p>
+                    <p className="text-xl font-bold text-primary">১৭৮২ সাল</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">মোট এলাকা</p>
-                    <p className="text-xl font-bold text-primary">৪,৩৬৩ কি.মি²</p>
+                    <p className="text-xl font-bold text-primary">৩,৪৯০ কি.মি²</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">উপজেলা</p>
                     <p className="text-xl font-bold text-primary">১৩টি</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">পৌরসভা</p>
-                    <p className="text-xl font-bold text-primary">১০টি</p>
-                  </div>
-                  <div className="space-y-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">জনসংখ্যা</p>
-                    <p className="text-xl font-bold text-primary">৫১ লক্ষ+</p>
+                    <p className="text-xl font-bold text-primary">৩৫ লক্ষ+</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">সাক্ষরতার হার</p>
-                    <p className="text-xl font-bold text-primary">৫০.৬%</p>
+                    <p className="text-xl font-bold text-primary">৫০%+</p>
                   </div>
                 </div>
               </div>
@@ -64,7 +60,7 @@ export default function About() {
           >
             <div className="absolute -inset-10 bg-accent/5 rounded-[5rem] blur-[100px] pointer-events-none" />
             <div className="relative aspect-[4/5] bg-slate-100 rounded-[4rem] overflow-hidden shadow-2xl skew-y-1 hover:skew-y-0 transition-all duration-1000 group">
-               <img src="input_file_0.png" alt="Mymensingh History" className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-all duration-[2000ms] grayscale brightness-110" />
+               <img src="https://images.unsplash.com/photo-1590059536067-1601264b97f1?q=80&w=2000" alt="Sylhet History" loading="lazy" className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-all duration-[2000ms] grayscale brightness-110" />
                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-40" />
             </div>
           </motion.div>
@@ -85,20 +81,20 @@ export default function About() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 text-white/70 text-xl font-medium leading-relaxed">
               <p>
-                ময়মনসিংহ প্রাচীন জনপদ হিসেবে নসিরুজ্জিয়াল নামে একসময় পরিচিত ছিল। ১৭৮৭ সালে জেলা হিসেবে এর আত্মপ্রকাশ ঘটে। ব্রহ্মপুত্র নদের তীরের এই এলাকা শিক্ষা ও সংস্কৃতিতে ঐতিহাসিকভাবেই অত্যন্ত সমৃদ্ধ।
+                সিলেট জেলা অতি প্রাচীনকাল থেকেই বাংলার এক গুরুত্বপূর্ণ অঞ্চল। হযরত শাহজালাল (রহ.) ও হযরত শাহপরাণ (রহ.)-এর আগমনের পর থেকে এটি আধ্যাত্মিক রাজধানী হিসেবে পরিচিতি পায়। সুরমা ও কুশিয়ারা নদীর তীরে গড়ে ওঠা এই জনপদ ঐতিহ্যে ও সংস্কৃতির ধারক।
               </p>
               <p>
-                ময়মনসিংহের মৈমনসিংহ গীতিকা, মুক্তাগাছার মন্ডা এবং জয়নুল আবেদিন সংগ্রহশালা এই জেলাকে বিশ্ব দরবারে অনন্য উচ্চতায় নিয়ে গেছে। বাংলাদেশের কৃষি উন্নয়নে বাংলাদেশ কৃষি বিশ্ববিদ্যালয়ের ভূমিকা অপরিসীম।
+                সিলেটের চা বাগান, জাফলং, রাতারগুল সোয়াম্প ফরেস্ট এবং ভোলাগঞ্জের সাদা পাথর পর্যটকদের জন্য এক অনন্য আকর্ষণ। ১৯৭১ সালের মুক্তিযুদ্ধে সিলেটের অবদান আমাদের জন্য চিরকাল গর্বের বিষয়।
               </p>
             </div>
             <div className="pt-10 flex gap-12 border-t border-white/5">
                <div className="flex flex-col gap-2">
-                 <span className="text-white text-3xl font-bold tracking-tighter">১৭৮৭</span>
+                 <span className="text-white text-3xl font-bold tracking-tighter">১৭৮২</span>
                  <span className="text-white/40 text-[11px] font-bold uppercase tracking-widest">প্রতিষ্ঠাকাল</span>
                </div>
                <div className="flex flex-col gap-2">
-                 <span className="text-white text-3xl font-bold tracking-tighter">১০টি</span>
-                 <span className="text-white/40 text-[11px] font-bold uppercase tracking-widest">পৌরসভা</span>
+                 <span className="text-white text-3xl font-bold tracking-tighter">১৩টি</span>
+                 <span className="text-white/40 text-[11px] font-bold uppercase tracking-widest">উপজেলা</span>
                </div>
             </div>
           </div>

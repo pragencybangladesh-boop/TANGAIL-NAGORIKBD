@@ -5,13 +5,27 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-bengali: "Hind Siliguri", sans-serif;
   
-  --color-primary: #006747;
-  --color-background: #FAF9F6;
+  --color-primary: #00693E;
+  --color-accent: #E8001C;
+  --color-background: #F5F7FA;
   --color-card: #FFFFFF;
-  --color-border: #E5E7EB;
-  --color-heading: #111827;
-  --color-body: #4B5563;
-  --color-icon-bg: rgba(0, 103, 71, 0.05);
+  --color-border: #E2E8F0;
+  --color-heading: #1A202C;
+  --color-body: #4A5568;
+  --color-icon-bg: #E8F5EE;
+
+  /* Global light theme values */
+  --color-white: #FFFFFF;
+  --color-slate-50: #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1E293B;
+  --color-slate-900: #0F172A;
 }
 
 @layer base {

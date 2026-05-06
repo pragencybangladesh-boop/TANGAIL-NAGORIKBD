@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { addDoc, collection, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { CheckCircle2, Search, User, Phone, MapPin, GraduationCap, Facebook, FileText, ChevronRight, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
 
@@ -8,7 +9,7 @@ export default function VolunteerRegistration() {
   const [formData, setFormData] = useState({ 
     name: '', 
     phone: '', 
-    district: 'Mymensingh', 
+    district: 'Sylhet', 
     upazila: '', 
     union: '', 
     educationOrProfession: '',
@@ -44,11 +45,13 @@ export default function VolunteerRegistration() {
 
     if (!validatePhone(formData.phone)) {
       setFormError('অনুগ্রহ করে সঠিক মোবাইল নম্বর প্রদান করুন (১১ ডিজিট, যেমন: ০১৭XXXXXXXX)');
+      toast.error('মোবাইল নম্বর সঠিক নয়');
       return;
     }
 
     setIsSubmitting(true);
     const trackingId = generateTrackingId();
+    const loadingToast = toast.loading('আবেদন জমা দেওয়া হচ্ছে...');
     
     try {
       await addDoc(collection(db, 'volunteers'), {
@@ -57,9 +60,13 @@ export default function VolunteerRegistration() {
         status: 'অপেক্ষমান',
         createdAt: serverTimestamp()
       });
+      toast.dismiss(loadingToast);
+      toast.success('আপনার আবেদনটি সফলভাবে গৃহীত হয়েছে');
       setSubmissionResult(trackingId);
     } catch (error) {
+      toast.dismiss(loadingToast);
       setFormError('আবেদন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+      toast.error('আবেদন জমা দিতে সমস্যা হয়েছে');
       handleFirestoreError(error, OperationType.CREATE, 'volunteers');
     } finally {
       setIsSubmitting(false);

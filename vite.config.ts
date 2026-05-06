@@ -14,16 +14,25 @@ export default defineConfig(({mode}) => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
         manifest: {
-          name: 'Nagorik BD - Mymensingh Portal',
+          name: 'Sylhet Nagorik BD',
           short_name: 'Nagorik BD',
-          description: 'Digital Public Infrastructure portal for Mymensingh District.',
+          description: 'সিলেট জেলার ডিজিটাল সিটিজেন সার্ভিস পোর্টাল।',
           theme_color: '#059669',
+          background_color: '#ffffff',
+          display: 'standalone',
+          orientation: 'portrait',
           icons: [
             {
               src: 'logo.svg',
-              sizes: 'any',
+              sizes: '192x192',
               type: 'image/svg+xml',
-              purpose: 'any maskable'
+              purpose: 'any'
+            },
+            {
+              src: 'logo.svg',
+              sizes: '512x512',
+              type: 'image/svg+xml',
+              purpose: 'maskable'
             }
           ]
         }

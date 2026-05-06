@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface LogoProps {
   className?: string;
@@ -15,11 +16,12 @@ export default function Logo({
   size = 40,
   monochrome = false
 }: LogoProps) {
-  const primaryColor = monochrome ? 'currentColor' : '#10b981';
-  const secondaryColor = monochrome ? 'currentColor' : '#059669';
-  const head1Color = monochrome ? 'currentColor' : '#ef4444';
-  const head2Color = monochrome ? 'currentColor' : '#f59e0b';
-  const head3Color = monochrome ? 'currentColor' : '#ec4899';
+  const { language } = useLanguage();
+  const primaryColor = monochrome ? 'currentColor' : '#00693E';
+  const secondaryColor = monochrome ? 'currentColor' : '#047857';
+  const head1Color = monochrome ? 'currentColor' : '#E8001C';
+  const head2Color = monochrome ? 'currentColor' : '#dc2626';
+  const head3Color = monochrome ? 'currentColor' : '#b91c1c';
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
@@ -50,12 +52,12 @@ export default function Logo({
       {showText && (
         <div className="flex flex-col">
           <div className="flex font-serif text-lg leading-none">
-            <span className="text-emerald-800 font-bold">Nagorik</span>
-            <span className="text-pink-600 font-bold ml-1">BD</span>
+            <span className="text-[#00693E] font-bold">Nagorik</span>
+            <span className="text-[#E8001C] font-bold ml-1">BD</span>
           </div>
           {showTagline && (
             <span className="text-[10px] font-medium text-slate-500 mt-0.5 leading-tight">
-              নাগরিক সমৃদ্ধি উন্নয়ন
+              {language === 'bn' ? 'নাগরিক সমৃদ্ধি উন্নয়ন' : 'Citizen Growth & Development'}
             </span>
           )}
         </div>

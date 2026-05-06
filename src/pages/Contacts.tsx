@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Phone, Search, MapPin, Shield, Ambulance, Flame, Landmark, Siren, PhoneCall } from 'lucide-react';
-import { UPAZILAS } from '../data/mymensingh';
+import { UPAZILAS } from '../data/sylhet';
 
 interface Contact {
   name: string;
@@ -12,18 +12,17 @@ interface Contact {
 }
 
 const CONTACTS: Contact[] = [
-  // Mymensingh Sadar
-  { name: 'উপজেলা নির্বাহী অফিসার', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০০', category: 'Administration', upazila: 'mymensingh-sadar' },
-  { name: 'ওসি, কোতোয়ালী মডেল থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১০৯৯০০', category: 'Police', upazila: 'mymensingh-sadar' },
-  { name: 'ফায়ার সার্ভিস স্টেশন', role: 'জরুরি সেবা', phone: '০৯১-৬৩১৩৩', category: 'Fire', upazila: 'mymensingh-sadar' },
-  { name: 'সিভিল সার্জন অফিস', role: 'স্বাস্থ্য সেবা', phone: '০৯১-৬২৪২৪', category: 'Health', upazila: 'mymensingh-sadar' },
+  // Sylhet Sadar
+  { name: 'উপজেলা নির্বাহী অফিসার', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৭৯৯', category: 'Administration', upazila: 'sylhet-sadar' },
+  { name: 'ওসি, কোতোয়ালি থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১০৯৮৫০', category: 'Police', upazila: 'sylhet-sadar' },
   
-  // Muktagacha
-  { name: 'ইউএনও, মুক্তাগাছা', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৭', category: 'Administration', upazila: 'muktagacha' },
-  { name: 'ওসি, মুক্তাগাছা থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৯২৫', category: 'Police', upazila: 'muktagacha' },
+  // Golapganj
+  { name: 'ইউএনও, গোলাপগঞ্জ', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৭৯৮', category: 'Administration', upazila: 'golapganj' },
+  { name: 'ওসি, গোলাপগঞ্জ থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৮৭৬', category: 'Police', upazila: 'golapganj' },
   
-  // Fulbaria
-  { name: 'ইউএনও, ফুলবাড়ীয়া', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৮০৮', category: 'Administration', upazila: 'fulbaria' },
+  // Bishwanath
+  { name: 'ইউএনও, বিশ্বনাথ', role: 'প্রশাসনিক প্রধান', phone: '০১৭৩৩-৩৩৬৭৯৭', category: 'Administration', upazila: 'bishwanath' },
+  { name: 'ওসি, বিশ্বনাথ থানা', role: 'আইনশৃঙ্খলা', phone: '০১৩২০-১১০৯০১', category: 'Police', upazila: 'bishwanath' },
 ];
 
 export default function Contacts() {
@@ -50,7 +49,7 @@ export default function Contacts() {
           </motion.div>
           <div className="space-y-6">
             <h1 className="text-5xl md:text-8xl font-bold text-slate-900 tracking-tight leading-none uppercase">জরুরি <span className="text-accent underline decoration-[12px] decoration-accent/20 underline-offset-[16px]">যোগাযোগ</span></h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">ময়মনসিংহ জেলার প্রতিটি উপজেলা ও পৌরসভার প্রশাসনিক এবং জরুরি সেবা প্রদানকারী কর্মকর্তাদের সাথে যোগাযোগের সরাসরি ডিরেক্টরি।</p>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">সিলেট জেলার প্রতিটি উপজেলা ও পৌরসভার প্রশাসনিক এবং জরুরি সেবা প্রদানকারী কর্মকর্তাদের সাথে যোগাযোগের সরাসরি ডিরেক্টরি।</p>
           </div>
         </div>
 

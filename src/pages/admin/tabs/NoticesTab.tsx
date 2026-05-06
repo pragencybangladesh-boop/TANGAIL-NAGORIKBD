@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, handleFirestoreError, OperationType } from '../../../lib/firebase';
 import { collection, query, getDocs, addDoc, deleteDoc, doc, orderBy } from 'firebase/firestore';
 import { Trash2, Plus, Bell } from 'lucide-react';
-import { UPAZILAS } from '../../../data/mymensingh';
+import { UPAZILAS } from '../../../data/sylhet';
 
 export default function NoticesTab() {
   const [notices, setNotices] = useState<any[]>([]);

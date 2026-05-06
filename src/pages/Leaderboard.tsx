@@ -11,9 +11,9 @@ const TOP_CATEGORIES = [
     id: 'uno',
     title: 'সেরা ৩ উপজেলা নির্বাহী কর্মকর্তা (UNO)',
     items: [
-      { name: 'মোঃ আব্দুল্লাহ আল মামুন', designation: 'ইউএনও, ত্রিশাল', rank: 1, image: 'https://i.pravatar.cc/150?u=uno1' },
-      { name: 'জান্নাতুল ফেরদৌস', designation: 'ইউএনও, ফুলপুর', rank: 2, image: 'https://i.pravatar.cc/150?u=uno2' },
-      { name: 'রফিকুল ইসলাম', designation: 'ইউএনও, গফরগাঁও', rank: 3, image: 'https://i.pravatar.cc/150?u=uno3' },
+      { name: 'মোঃ আব্দুল্লাহ আল মামুন', designation: 'ইউএনও, সদর', rank: 1, image: 'https://i.pravatar.cc/150?u=uno1' },
+      { name: 'জান্নাতুল ফেরদৌস', designation: 'ইউএনও, বকশীগঞ্জ', rank: 2, image: 'https://i.pravatar.cc/150?u=uno2' },
+      { name: 'রফিকুল ইসলাম', designation: 'ইউএনও, ইসলামপুর', rank: 3, image: 'https://i.pravatar.cc/150?u=uno3' },
     ]
   },
   {
@@ -21,35 +21,35 @@ const TOP_CATEGORIES = [
     title: 'সেরা ৩ অফিসার ইনচার্জ (OC)',
     items: [
       { name: 'মোঃ শাহ্‌ কামাল আকন্দ', designation: 'ওসি, সদর', rank: 1, image: 'https://i.pravatar.cc/150?u=oc1' },
-      { name: 'রফিকুল ইসলাম', designation: 'ওসি, ফুলপুর', rank: 2, image: 'https://i.pravatar.cc/150?u=oc2' },
-      { name: 'ফিরোজ তালুকদার', designation: 'ওসি, ভালুকা', rank: 3, image: 'https://i.pravatar.cc/150?u=oc3' },
+      { name: 'রফিকুল ইসলাম', designation: 'ওসি, বকশীগঞ্জ', rank: 2, image: 'https://i.pravatar.cc/150?u=oc2' },
+      { name: 'ফিরোজ তালুকদার', designation: 'ওসি, সরিষাবাড়ী', rank: 3, image: 'https://i.pravatar.cc/150?u=oc3' },
     ]
   },
   {
     id: 'upazila',
     title: 'সেরা ৩ উপজেলা',
     items: [
-      { name: 'ত্রিশাল উপজেলা', designation: 'সাফল্য সূচক: ৯৮%', rank: 1, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
-      { name: 'মুক্তাগাছা উপজেলা', designation: 'সাফল্য সূচক: ৯৫%', rank: 2, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
-      { name: 'ঈশ্বরগঞ্জ উপজেলা', designation: 'সাফল্য সূচক: ৯২%', rank: 3, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
+      { name: 'বকশীগঞ্জ উপজেলা', designation: 'সাফল্য সূচক: ৯৮%', rank: 1, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
+      { name: 'মেলান্দহ উপজেলা', designation: 'সাফল্য সূচক: ৯৫%', rank: 2, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
+      { name: 'সরিষাবাড়ী উপজেলা', designation: 'সাফল্য সূচক: ৯২%', rank: 3, image: 'https://images.unsplash.com/photo-1541467658290-75bc49195d24?w=400&h=400&fit=crop' },
     ]
   },
   {
     id: 'offices',
     title: 'সেরা ৩ সরকারি অফিস',
     items: [
-      { name: 'উপজেলা ভূমি অফিস, ত্রিশাল', designation: 'ডিজিটাল সেবা ক্যাটাগরি', rank: 1, image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop' },
-      { name: 'উপজেলা স্বাস্থ্য কমপ্লেক্স, ফুলপুর', designation: 'জনস্বাস্থ্য সেবা ক্যাটাগরি', rank: 2, image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop' },
-      { name: 'উপজেলা কৃষি অফিস, গফরগাঁও', designation: 'কৃষক সহায়তা ক্যাটাগরি', rank: 3, image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=400&fit=crop' },
+      { name: 'উপজেলা ভূমি অফিস, সদর', designation: 'ডিজিটাল সেবা ক্যাটাগরি', rank: 1, image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop' },
+      { name: 'উপজেলা স্বাস্থ্য কমপ্লেক্স, বকশীগঞ্জ', designation: 'জনস্বাস্থ্য সেবা ক্যাটাগরি', rank: 2, image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop' },
+      { name: 'উপজেলা কৃষি অফিস, মেলান্দহ', designation: 'কৃষক সহায়তা ক্যাটাগরি', rank: 3, image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=400&fit=crop' },
     ]
   },
   {
     id: 'officers',
     title: 'সেরা ৩ সরকারি কর্মকর্তা',
     items: [
-      { name: 'আরিফুর রহমান', designation: 'এসিল্যান্ড, ত্রিশাল', rank: 1, image: 'https://i.pravatar.cc/150?u=off1' },
-      { name: 'শারমিন আক্তার', designation: 'উপজেলা শিক্ষা অফিসার, মুক্তাগাছা', rank: 2, image: 'https://i.pravatar.cc/150?u=off2' },
-      { name: 'কামাল হোসেন', designation: 'উপজেলা কৃষি অফিসার, ঈশ্বরগঞ্জ', rank: 3, image: 'https://i.pravatar.cc/150?u=off3' },
+      { name: 'আরিফুর রহমান', designation: 'এসিল্যান্ড, সদর', rank: 1, image: 'https://i.pravatar.cc/150?u=off1' },
+      { name: 'শারমিন আক্তার', designation: 'উপজেলা শিক্ষা অফিসার, ইসলামপুর', rank: 2, image: 'https://i.pravatar.cc/150?u=off2' },
+      { name: 'কামাল হোসেন', designation: 'উপজেলা কৃষি অফিসার, মাদারগঞ্জ', rank: 3, image: 'https://i.pravatar.cc/150?u=off3' },
     ]
   },
   {
@@ -64,19 +64,13 @@ const TOP_CATEGORIES = [
 ];
 
 const CITIZENS = [
-  { name: 'আব্দুল কাদের', upazila: 'ত্রিশাল' },
-  { name: 'ফারহানা ইয়াসমিন', upazila: 'ফুলপুর' },
-  { name: 'নজরুল ইসলাম', upazila: 'গফরগাঁও' },
-  { name: 'আয়েশা সিদ্দিকা', upazila: 'মুক্তাগাছা' },
-  { name: 'এমদাদুল হক', upazila: 'ঈশ্বরগঞ্জ' },
-  { name: 'রেহানা বেগম', upazila: 'ভালুকা' },
-  { name: 'জহিরুল আলম', upazila: 'নান্দাইল' },
-  { name: 'সায়মা আক্তার', upazila: 'গৌরীপুর' },
-  { name: 'মাহবুব রহমান', upazila: 'ফুলবাড়িয়া' },
-  { name: 'লিপি আক্তার', upazila: 'হালুয়াঘাট' },
-  { name: 'শফিকুল ইসলাম', upazila: 'ধোবাউড়া' },
-  { name: 'কামরুন নাহার', upazila: 'তারাকান্দা' },
-  { name: 'রফিক আহমেদ', upazila: 'সদর' },
+  { name: 'আব্দুল কাদের', upazila: 'সদর' },
+  { name: 'ফারহানা ইয়াসমিন', upazila: 'বকশীগঞ্জ' },
+  { name: 'নজরুল ইসলাম', upazila: 'ইসলামপুর' },
+  { name: 'আয়েশা সিদ্দিকা', upazila: 'মেলান্দহ' },
+  { name: 'এমদাদুল হক', upazila: 'মাদারগঞ্জ' },
+  { name: 'রেহানা বেগম', upazila: 'সরিষাবাড়ী' },
+  { name: 'জহিরুল আলম', upazila: 'দেওয়ানগঞ্জ' },
 ];
 
 export default function Leaderboard() {
@@ -97,7 +91,7 @@ export default function Leaderboard() {
             সেরা অর্জনকারী <span className="text-primary italic">লিডারবোর্ড</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-500 font-medium max-w-3xl mx-auto leading-relaxed">
-            ময়মনসিংহ জেলার মেধা, কর্মদক্ষতা ও সেবার ভিত্তিতে নির্বাচিত মাসিক শ্রেষ্ঠ ব্যক্তিত্ব ও প্রতিষ্ঠানসমূহ।
+            সিলেট জেলার মেধা, কর্মদক্ষতা ও সেবার ভিত্তিতে নির্বাচিত মাসিক শ্রেষ্ঠ ব্যক্তিত্ব ও প্রতিষ্ঠানসমূহ।
           </p>
           <p className="text-[11px] font-bold text-red-500 mt-2">
             নিচের ডাটাগুলা ডেমু ডাটা আগামী মাস থেকে এটা আপডেট করা হবে।
@@ -138,12 +132,10 @@ export default function Leaderboard() {
                   </div>
 
                   <div className="flex flex-col items-center text-center space-y-6">
-                    <div className={`w-28 h-28 rounded-full p-1.5 border-2 ${item.rank === 1 ? 'border-amber-400/30' : 'border-slate-100'}`}>
-                      <img 
-                        src={item.image} 
-                        alt={item.name} 
-                        className="w-full h-full rounded-full object-cover grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
-                      />
+                    <div className={`w-28 h-28 rounded-full p-1.5 border-2 flex-shrink-0 ${item.rank === 1 ? 'border-amber-400/30' : 'border-slate-100'}`}>
+                      <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center text-4xl font-black text-slate-400 uppercase shadow-inner">
+                        {item.name.charAt(0)}
+                      </div>
                     </div>
                     
                     <div className="space-y-1">

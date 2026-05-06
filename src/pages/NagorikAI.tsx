@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bot, Send, User, Trash2, Loader2, Sparkles, Clock } from 'lucide-react';
-import { getAIResponse } from '../lib/gemini';
+import { Bot, Send, User, Trash2, Loader2, Sparkles, Clock, ArrowRight, Globe, Mic, MicOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { collection, addDoc, serverTimestamp, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { getAIResponse } from '../lib/gemini';
 import Logo from '../components/Logo';
 
 interface Message {
@@ -17,9 +17,10 @@ export default function NagorikAI() {
   const [messages, setMessages] = useState<Message[]>([
     { role: 'ai', content: 'স্বাগতম Nagorik Ai ইকো সিস্টেমে। কিভাবে আপনাকে সহযোগিতা করতে পারি?' }
   ]);
-  const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -31,16 +32,45 @@ export default function NagorikAI() {
   }, [messages]);
 
   useEffect(() => {
-    fetchRecentLogs();
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'bn-BD';
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(prev => prev + transcript);
+        setIsRecording(false);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsRecording(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsRecording(false);
+      };
+    }
   }, []);
 
-  const fetchRecentLogs = async () => {
-    try {
-      const q = query(collection(db, 'aiQueries'), orderBy('createdAt', 'desc'), limit(10));
-      const snapshot = await getDocs(q);
-      setRecentLogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    } catch (error) {
-      console.error("Error fetching logs:", error);
+  const toggleRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      setIsRecording(false);
+    } else {
+      if (!recognitionRef.current) {
+        alert('আপনার ব্রাউজার ভয়েস ইনপুট সমর্থন করে না।');
+        return;
+      }
+      try {
+        recognitionRef.current.start();
+        setIsRecording(true);
+      } catch (err) {
+        console.error('Failed to start recognition:', err);
+      }
     }
   };
 
@@ -53,7 +83,7 @@ export default function NagorikAI() {
     setIsLoading(true);
 
     try {
-      const response = await getAIResponse(userMessage, "You are a helpful assistant for Nagorik BD portal. Provide information about Mymensingh division, government services, and citizen support.");
+      const response = await getAIResponse(userMessage);
       setMessages(prev => [...prev, { role: 'ai', content: response }]);
       
       // Log to Firestore
@@ -65,9 +95,9 @@ export default function NagorikAI() {
           userName: user?.displayName || 'Anonymous',
           email: user?.email || 'N/A'
         });
-        fetchRecentLogs(); // Refresh logs
       } catch (logError) {
         console.error("Error logging AI query:", logError);
+        handleFirestoreError(logError, OperationType.CREATE, 'aiQueries');
       }
     } catch (error) {
       console.error(error);
@@ -79,9 +109,9 @@ export default function NagorikAI() {
 
   return (
     <div className="min-h-screen bg-slate-50 pt-32 pb-32 px-4">
-      <div className="max-w-4xl mx-auto space-y-12">
+      <div className="max-w-4xl mx-auto h-[75vh] min-h-[600px]">
         {/* Chat Interface */}
-        <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden flex flex-col h-[700px]">
+        <div className="bg-white rounded-3xl shadow-xl border border-slate-100 flex flex-col h-full">
           {/* Header */}
           <div className="bg-primary p-6 text-white flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -149,7 +179,7 @@ export default function NagorikAI() {
           {/* Settings/Info Footer */}
           <div className="px-6 py-2 border-t border-slate-50 bg-slate-50/50 flex justify-center">
             <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest flex items-center gap-1">
-              <Sparkles className="w-3 h-3" /> Powered by Gemini
+              <Sparkles className="w-3 h-3" /> Powered by Nagorik Ai
             </span>
           </div>
 
@@ -161,86 +191,32 @@ export default function NagorikAI() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="আপনার জিজ্ঞাসা এখানে লিখুন..."
+                placeholder={isRecording ? "আলাপ শুনছি..." : "আপনার জিজ্ঞাসা এখানে লিখুন..."}
                 className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-sm"
               />
-              <button
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                className="bg-primary text-white p-3 rounded-xl hover:bg-primary-dark disabled:opacity-50 transition-all shadow-lg shadow-primary/20"
-              >
-                <Send className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-1 mr-1">
+                <button
+                  onClick={toggleRecording}
+                  title={isRecording ? "থামান" : "ভয়েস ইনপুট"}
+                  className={`p-3 rounded-xl transition-all ${
+                    isRecording 
+                      ? 'bg-red-500 text-white animate-pulse' 
+                      : 'bg-slate-200 text-slate-500 hover:bg-slate-300'
+                  }`}
+                >
+                  {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                </button>
+                <button
+                  onClick={handleSend}
+                  disabled={!input.trim() || isLoading}
+                  className="bg-primary text-white p-3 rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-lg shadow-primary/20"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Global Activity Log */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-3">
-              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">নাগরিক জিজ্ঞাসা ও সমাধান</h3>
-              <button 
-                onClick={fetchRecentLogs}
-                className="p-1 px-3 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-tighter"
-              >
-                Refresh <Clock className="w-2.5 h-2.5" />
-              </button>
-            </div>
-            <div className="flex items-center gap-2 text-primary font-bold text-[10px] uppercase tracking-widest">
-              Live updates <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            </div>
-          </div>
-
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-100">
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">ব্যবহারকারী</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">জিজ্ঞাসা</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">সময়</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {recentLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
-                            <User className="w-4 h-4" />
-                          </div>
-                          <span className="text-xs font-bold text-slate-700">{log.userName || 'আজ্ঞাত'}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-5">
-                        <p className="text-xs font-medium text-slate-600 line-clamp-1 max-w-sm">{log.query}</p>
-                      </td>
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-2 text-slate-400">
-                          <Clock className="w-3 h-3" />
-                          <span className="text-[10px] font-bold">
-                            {log.createdAt?.toDate ? log.createdAt.toDate().toLocaleTimeString('bn-BD') : 'N/A'}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {recentLogs.length === 0 && (
-                    <tr>
-                      <td colSpan={3} className="px-8 py-20 text-center text-slate-400 italic text-sm">কোনো রেকর্ড পাওয়া যায়নি।</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <div className="bg-slate-50 p-6 flex justify-center">
-               <p className="text-[10px] font-bold text-slate-400 uppercase italic">
-                 * কথোপকথন পর্যালোচনা করে উন্নত সেবা প্রদানের লক্ষে অ্যাডমিন প্যানেল থেকে তথ্য সংরক্ষণ বা ডিলিট করা হতে পারে
-               </p>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );

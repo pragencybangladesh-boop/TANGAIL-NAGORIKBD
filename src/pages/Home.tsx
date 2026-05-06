@@ -1,10 +1,10 @@
-import { UPAZILAS } from '../data/mymensingh';
+import { UPAZILAS } from '../data/sylhet';
 import UpazilaCard from '../components/ui/UpazilaCard';
-import WeatherCard from '../components/ui/WeatherCard';
+import WeatherCard from '../lib/hooks/WeatherCard';
 import { doc, getDocs, query, collection, where } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, Users, Mic, ArrowRight, Activity, FileText, Heart, GraduationCap, Zap, Sprout, Scale, Gavel, MessageSquare, Clock, CheckCircle2 } from 'lucide-react';
+import { Search, MapPin, ExternalLink, ShieldCheck, Globe, Landmark, Phone, Users, Mic, ArrowRight, Activity, FileText, Heart, GraduationCap, Zap, Sprout, Scale, Gavel, MessageSquare, Clock, CheckCircle2, Store } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 
@@ -24,7 +24,7 @@ const QUICK_ACTIONS = [
 ];
 
 const HERO_STATS = [
-    {label: 'উপজেলা', value: '১৩'},
+    {label: 'উপজেলা', value: '১০'},
     {label: 'অনলাইন সেবা', value: '৫০+'},
     {label: 'ডিজিটাল সেবা', value: '২৪/৭'},
     {label: 'নাগরিক সহায়ক', value: 'AI'},
@@ -41,10 +41,12 @@ export default function Home() {
   });
 
   useEffect(() => {
+    let mounted = true;
     const fetchGlobalStats = async () => {
       try {
         const q = query(collection(db, 'complaints'));
         const snapshot = await getDocs(q);
+        if (!mounted) return;
         const docs = snapshot.docs.map(doc => doc.data());
         setGlobalStats({
           total: docs.length,
@@ -53,46 +55,50 @@ export default function Home() {
           inProgress: docs.filter(d => d.status === 'In Progress' || d.status === 'Processing').length
         });
       } catch (error) {
-        console.error("Error fetching global stats:", error);
+        if (mounted) {
+          console.error("Error fetching global stats:", error);
+          handleFirestoreError(error, OperationType.LIST, 'complaints');
+        }
       }
     };
     fetchGlobalStats();
+    return () => { mounted = false; };
   }, []);
 
   return (
     <div className="bg-background">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-12 px-6 bg-gradient-to-br from-green-800 to-green-950 overflow-hidden">
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-12 px-6 bg-gradient-to-br from-[#E8F5EE] to-[#FFFFFF] overflow-hidden">
         {/* Background Overlay */}
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '48px 48px' }} />
+        <div className="absolute inset-0 z-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #00693E 1px, transparent 0)', backgroundSize: '48px 48px' }} />
 
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20"
+            className="inline-flex items-center gap-3 bg-white px-6 py-2 rounded-full border border-green-100 shadow-sm"
           >
-            <span className="text-white text-sm font-medium flex items-center gap-2">
-              <span className="text-yellow-400">✨</span> সরকারের সমালোচনা নয়, সরকারের সহযোগিতার মাধ্যমে উন্নত দেশ গড়ার প্রত্যায়ে NagorikBD 🇧🇩
+            <span className="text-primary text-sm font-medium flex items-center gap-2">
+              <span className="text-yellow-600">✨</span> সরকারের সমালোচনা নয়, সরকারের সহযোগিতার মাধ্যমে উন্নত দেশ গড়ার প্রত্যায়ে NagorikBD 🇧🇩
             </span>
           </motion.div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight">
-            ময়মনসিংহ ডিজিটাল পোর্টাল
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-primary leading-[1.1] tracking-tight">
+            সিলেট ডিজিটাল পোর্টাল
           </h1>
-          <h2 className="text-xl sm:text-2xl font-semibold text-white/90 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-semibold text-slate-600 tracking-tight">
             নাগরিক বাংলাদেশ
           </h2>
 
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-            ময়মনসিংহ জেলার ডিজিটাল প্ল্যাটফর্ম — স্বচ্ছ, দ্রুত ও আধুনিক সেবায় নাগরিকের পাশে। ১৩টি উপজেলার ৫০+ অনলাইন সেবা এক জায়গায়।
+          <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            সিলেট জেলার ডিজিটাল প্ল্যাটফর্ম — স্বচ্ছ, দ্রুত ও আধুনিক সেবায় নাগরিকের পাশে। ৫টি উপজেলার ৫০+ অনলাইন সেবা এক জায়গায়।
           </p>
 
           <div className="flex flex-row items-center justify-center gap-4 pt-6">
-            <Link to="/services" className="px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-500 transition-all flex items-center gap-2 text-sm whitespace-nowrap">
+            <Link to="/services" className="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all flex items-center gap-2 text-sm shadow-lg shadow-primary/20">
               সেবাসমূহ দেখুন <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/upazilas" className="px-8 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-all border border-white/20 text-sm whitespace-nowrap">
+            <Link to="/upazilas" className="px-8 py-3 bg-white text-primary font-bold rounded-lg hover:bg-slate-50 transition-all border border-primary text-sm">
               উপজেলা সমূহ
             </Link>
           </div>
@@ -101,9 +107,9 @@ export default function Home() {
         {/* Stats Grid */}
         <div className="relative z-10 max-w-5xl mx-auto mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4 sm:px-0">
             {HERO_STATS.map((stat, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-center text-white">
-                    <div className="text-2xl font-bold mb-1">{stat.value}</div>
-                    <div className="text-sm font-medium text-white/70">{stat.label}</div>
+                <div key={i} className="bg-white p-4 rounded-xl text-center border border-slate-100 shadow-sm">
+                    <div className="text-2xl font-bold mb-1 text-primary">{stat.value}</div>
+                    <div className="text-sm font-medium text-slate-500">{stat.label}</div>
                 </div>
             ))}
         </div>
@@ -185,6 +191,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Market Monitor Banner */}
+      <section className="max-w-7xl mx-auto px-6 mb-32">
+        <Link to="/market-monitor" className="block relative group overflow-hidden rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-slate-100 bg-white hover:shadow-xl transition-all duration-500">
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-50 to-white z-0" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between p-8 md:p-12 gap-8">
+            <div className="flex-1 space-y-4 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold uppercase tracking-widest">
+                <Store className="w-4 h-4" /> বাজার পর্যবেক্ষণ
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-800 tracking-tight">বাজার সর্দার</h2>
+              <p className="text-slate-600 font-medium text-base md:text-lg max-w-xl md:mx-0 mx-auto">
+                সরকার কর্তৃক নির্ধারিত আজকের নিত্যপ্রয়োজনীয় পণ্যের মূল্য দেখুন এবং আপনার এলাকার বাজার দর জানিয়ে মনিটরিংয়ে সহায়তা করুন।
+              </p>
+            </div>
+            
+            <div className="shrink-0 flex justify-center">
+               <div className="w-16 h-16 md:w-20 md:h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-600/30 group-hover:scale-110 group-hover:bg-emerald-500 transition-all duration-300">
+                 <ArrowRight className="w-8 h-8 md:w-10 md:h-10 group-hover:translate-x-1 transition-transform" />
+               </div>
+            </div>
+          </div>
+          
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emerald-100/50 rounded-full blur-3xl group-hover:bg-emerald-200/50 transition-colors duration-500" />
+        </Link>
+      </section>
+
       {/* Upazilas Section */}
       <section className="bg-card py-32 mb-32 border-y border-border">
         <div className="max-w-7xl mx-auto px-6">
@@ -209,7 +242,7 @@ export default function Home() {
 
       {/* Volunteer CTA */}
       <section className="max-w-7xl mx-auto px-6 mb-32 flex flex-col items-center gap-6">
-        <h3 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight text-center">Good Citizens build Good Governance</h3>
+        <h3 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight text-center">সচেতন নাগরিকই গড়বে আগামীর সুন্দর দেশ</h3>
         <Link 
           to="/volunteer-registration" 
           className="px-10 py-5 bg-emerald-700 text-white font-bold rounded-2xl hover:bg-emerald-600 transition-all flex items-center gap-4 text-xl shadow-2xl border border-emerald-600/50 whitespace-nowrap hover:scale-105 group"
@@ -299,25 +332,25 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Floating Login CTA -> Good Governance */}
+      {/* Floating Login CTA -> Fact Check */}
       <section className="max-w-7xl mx-auto px-6 pb-32">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-700 p-8 md:p-12 rounded-[2rem] text-center relative overflow-hidden shadow-2xl shadow-amber-900/20"
+          className="bg-gradient-to-r from-emerald-600 via-emerald-700 to-green-800 p-8 md:p-12 rounded-[2rem] text-center relative overflow-hidden shadow-2xl shadow-emerald-900/20"
         >
           <div className="relative z-10 space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">সুশাসন ও নাগরিক অধিকার</h2>
-            <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto font-medium">নাগরিকদের অধিকার সচেতনতা, আইনি সহায়তা এবং সুশাসন প্রতিষ্ঠায় আমাদের কার্যক্রম ও ব্লগ সম্পর্কে জানুন।</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">সত্য জানুন (Fact Check)</h2>
+            <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto font-medium">অফওয়াহ এবং ভুল তথ্যের ভিড়ে সঠিক খবর যাচাই করুন। আপনাদের সন্দেহের তথ্যগুলো আমাদের পাঠান, আমরা যাচাই করব।</p>
             <div className="flex justify-center">
-              <Link to="/governance" className="px-8 py-3 bg-white text-amber-900 font-bold rounded-lg hover:bg-amber-50 hover:scale-105 transition-all shadow-lg text-sm uppercase tracking-widest">
-                বিস্তারিত জানুন
+              <Link to="/governance" className="px-8 py-3 bg-white text-emerald-900 font-bold rounded-lg hover:bg-emerald-50 hover:scale-105 transition-all shadow-lg text-sm uppercase tracking-widest">
+                তথ্য যাচাই করুন
               </Link>
             </div>
           </div>
           {/* Decor */}
           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <Globe className="absolute -top-20 -left-20 w-96 h-96 text-white" />
+            <CheckCircle2 className="absolute -top-20 -left-20 w-96 h-96 text-white" />
             <ShieldCheck className="absolute -bottom-20 -right-20 w-80 h-80 text-white" />
           </div>
         </motion.div>
