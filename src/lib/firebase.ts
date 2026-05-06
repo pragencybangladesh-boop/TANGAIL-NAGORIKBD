@@ -26,26 +26,27 @@ console.log('Firebase Initialized with Project:', config.projectId);
 // Initialize Firestore
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-}, config.firestoreDatabaseId || '(default)');
+});
 
 export const auth = getAuth(app);
 
 // Test the connection to Firestore
 async function testConnection() {
+  console.log('Testing Firebase connection...');
   try {
-    // Try a simple get to verify connectivity
-    await getDocFromServer(doc(db, 'test-connection', 'bootstrap'));
+    // Try a simple get from a path explicitly allowed by rules to verify connectivity
+    const testDoc = doc(db, 'test-connection', 'bootstrap');
+    await getDocFromServer(testDoc);
     console.log('Firebase connection test successful');
   } catch (error: any) {
     if (error?.message?.includes('the client is offline')) {
-      console.error('Firebase connection failed: Client appears to be offline. This often means the Project ID or API Key in your configuration is incorrect, or Firestore is not enabled for this project.');
-      console.error('Current Config:', {
-        projectId: config.projectId,
-        authDomain: config.authDomain,
-        databaseId: (config as any).firestoreDatabaseId || '(default)'
-      });
+      console.error('Firebase connection error: The client is offline or the configuration is invalid.');
+      console.error('Check if Firestore is enabled for project:', config.projectId);
+      console.error('Verify that the API Key is correct and has the necessary permissions.');
+    } else if (error?.code === 'permission-denied') {
+      console.log('Firebase connected, but permission was denied (this is expected if rules are strict).');
     } else {
-      console.warn('Firebase connection test warning:', error?.message || error);
+      console.warn('Firebase connectivity check:', error?.message || error);
     }
   }
 }
